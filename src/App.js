@@ -1,23 +1,25 @@
 import './App.css';
-import { db } from "./service/firestore-config";
-import { useEffect } from 'react';
-import { collection, getDocs } from "firebase/firestore";
+import { useEffect, useState } from 'react';
+import { getUsers } from "./service/users";
 
 function App() {
-  const usersRef = collection(db, 'USER');
+  const [users, setUser] = useState([]);
 
   useEffect(() => {
-    const getUsers = async () => {
-      const userData = await getDocs(usersRef);
-      console.log(userData);
-    };
-
-    getUsers();
+    async function fetchFirestore() {
+      setUser(await getUsers())
+    }
+    fetchFirestore()
   });
 
   return (
     <div className="App">
-      <h1>Text Here</h1>
+      <h1>Choose a user</h1>
+      <ul>
+        {
+          users.map(x => (<li key={x.UserName}>{x.Name}</li>))
+        }
+      </ul>
     </div>
   );
 }
