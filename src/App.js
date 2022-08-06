@@ -1,8 +1,11 @@
 import './App.css';
+import { _ } from "lodash";
 import { useEffect, useState } from 'react';
 import { getUsers } from "./service/users";
+import { Dashboard } from "./app/Dashboard";
 
 import { Dropdown } from 'primereact/dropdown';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   const [users, setUsers] = useState([]);
@@ -14,10 +17,14 @@ function App() {
         label: x.Name,
         value: x.UserName
       }));
-      setUsers(usersDropdown);
+      setUsers(_.clone(usersDropdown));
     }
-    fetchFirestore()
+    fetchFirestore();
   });
+
+  function onSelectUser(userId) {
+    setUser(userId);
+  }
 
   return (
     <div className="App">
@@ -30,17 +37,22 @@ function App() {
           <div className="field col-2"></div>
           <div className="field col-8">
             <Dropdown
-              loading
-              loadingIcon="pi pi-spin pi-sun"
               value={user} 
               options={users} 
-              onChange={(e) => setUser(e.value)} 
+              onChange={(e) => onSelectUser(e.value)} 
               placeholder="Select a User">
             </Dropdown>
           </div>
           <div className="field col-2"></div>
         </div>
       </div>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/">
+            <Route path="Dashboard" element={<Dashboard />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
