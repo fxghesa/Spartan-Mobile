@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
 import { Accordion, AccordionTab } from 'primereact/accordion';
-import { calculateNewValue } from '@testing-library/user-event/dist/utils';
 
 export function Dashboard() {
     const navigate = useNavigate();
@@ -23,13 +22,6 @@ export function Dashboard() {
     function onClickLogOut() {
         localStorage.removeItem(userIdLocalStorage);
         navigate("/", { replace: true });
-    }
-
-    function setLoading(e) {
-        console.log('clicked');
-        console.log(e);
-        console.log(isLoading);
-        // setIsLoading();
     }
     
     return (
@@ -78,7 +70,6 @@ const AccordionContent = ({ loadingSetter })  => {
 
 	function getAllItemHeader() {
 		async function fetchFirestore() {
-            // loadingState = true
             loadingSetter(true);
 			const usersDropdown = (await getItemHeader()
             .finally(() => {
