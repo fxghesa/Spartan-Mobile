@@ -46,6 +46,25 @@ export function Dashboard() {
 const AccordionContent = ({ loadingSetter })  => {
     const [item, setItem] = useState([]);
     const [activeIndex, setActiveIndex] = useState(null);
+
+    useEffect(() => {
+		getAllItemHeader();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+	function getAllItemHeader() {
+		async function fetchFirestore() {
+            loadingSetter(true);
+			const usersDropdown = (await getItemHeader()
+            .finally(() => {
+                loadingSetter(false);
+            }));
+            usersDropdown.sort((a, b) => (a.ItemCode) - (b.ItemCode));
+            setItem(usersDropdown);
+		}
+		fetchFirestore();
+	}
+
     const onClick = (itemIndex) => {
         let _activeIndex = activeIndex ? [...activeIndex] : [];
 
@@ -64,29 +83,17 @@ const AccordionContent = ({ loadingSetter })  => {
         setActiveIndex(_activeIndex);
     }
 
-    useEffect(() => {
-		getAllItemHeader();
-	}, []);
-
-	function getAllItemHeader() {
-		async function fetchFirestore() {
-            loadingSetter(true);
-			const usersDropdown = (await getItemHeader()
-            .finally(() => {
-                loadingSetter(false);
-            }));
-            usersDropdown.sort((a, b) => (a.ItemCode) - (b.ItemCode));
-            setItem(usersDropdown);
-		}
-		fetchFirestore();
-	}
-
     return(
         <div>
             <div className="pt-2 pb-4">
                 {
                     item.map(x => 
-                        <Button key={`accordion-${x.ItemCode}`} icon={activeIndex && activeIndex.some((index) => index === x.ItemCode) ? 'pi pi-minus' : 'pi pi-plus'} label={x.ItemName} onClick={() => onClick(x.ItemCode)} className="p-button-text" />
+                        <Button 
+                            key={`accordion-${x.ItemCode}`} 
+                            icon={activeIndex && activeIndex.some((index) => index === x.ItemCode) ? 'pi pi-minus' : 'pi pi-plus'} 
+                            label={x.ItemName} 
+                            onClick={() => onClick(x.ItemCode)} 
+                            className="p-button-text" />
                     )
                 }
             </div>
