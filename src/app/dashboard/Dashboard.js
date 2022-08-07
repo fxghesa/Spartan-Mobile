@@ -2,12 +2,14 @@ import './Dashboard.css';
 import '../../App.css';
 import { useEffect, useState } from 'react';
 import { userIdLocalStorage } from "../../service/Localstorage-config";
+import { getItemHeader } from "../../service/Item";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
-import { Accordion, AccordionTab } from 'primereact/accordion'; 
+import { Accordion, AccordionTab } from 'primereact/accordion';
+import { calculateNewValue } from '@testing-library/user-event/dist/utils';
 
 export function Dashboard() {
     const navigate = useNavigate();
@@ -23,6 +25,13 @@ export function Dashboard() {
         navigate("/", { replace: true });
     }
 
+    function setLoading(e) {
+        console.log('clicked');
+        console.log(e);
+        console.log(isLoading);
+        // setIsLoading();
+    }
+    
     return (
         <div>
             {
@@ -36,14 +45,14 @@ export function Dashboard() {
 			<br />
 			<br />
             <div className="App">
-                <AccordionContent />
+                <AccordionContent loadingSetter={setIsLoading} />
             </div>
         </div>
     );
 }
 
-function AccordionContent() {
-    const [content, setContent] = useState([]);
+const AccordionContent = ({ loadingSetter })  => {
+    const [item, setItem] = useState([]);
     const [activeIndex, setActiveIndex] = useState(null);
     const onClick = (itemIndex) => {
         let _activeIndex = activeIndex ? [...activeIndex] : [];
@@ -64,31 +73,39 @@ function AccordionContent() {
     }
 
     useEffect(() => {
-        setContent([ {i: 0}, {i: 1}, {i: 2} ]);
-    }, []);
+		getAllItemHeader();
+	}, []);
+
+	function getAllItemHeader() {
+		async function fetchFirestore() {
+            // loadingState = true
+            loadingSetter(true);
+			const usersDropdown = (await getItemHeader()
+            .finally(() => {
+                loadingSetter(false);
+            }));
+            usersDropdown.sort((a, b) => (a.ItemCode) - (b.ItemCode));
+            setItem(usersDropdown);
+		}
+		fetchFirestore();
+	}
 
     return(
         <div>
             <div className="pt-2 pb-4">
                 {
-                    content.map(x => 
-                        <Button key={`accordion-${x.i}`} icon={activeIndex && activeIndex.some((index) => index === x.i) ? 'pi pi-minus' : 'pi pi-plus'} label={x.i.toString()} onClick={() => onClick(x.i)} className="p-button-text" />
+                    item.map(x => 
+                        <Button key={`accordion-${x.ItemCode}`} icon={activeIndex && activeIndex.some((index) => index === x.ItemCode) ? 'pi pi-minus' : 'pi pi-plus'} label={x.ItemName} onClick={() => onClick(x.ItemCode)} className="p-button-text" />
                     )
                 }
-                {/* <Button icon={activeIndex && activeIndex.some((index) => index === 0) ? 'pi pi-minus' : 'pi pi-plus'} label="1st" onClick={() => onClick(0)} className="p-button-text" />
-                <Button icon={activeIndex && activeIndex.some((index) => index === 1) ? 'pi pi-minus' : 'pi pi-plus'} label="2nd" onClick={() => onClick(1)} className="p-button-text ml-2" />
-                <Button icon={activeIndex && activeIndex.some((index) => index === 2) ? 'pi pi-minus' : 'pi pi-plus'} label="3rd" onClick={() => onClick(2)} className="p-button-text ml-2" /> */}
             </div>
             <Accordion multiple activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
-                <AccordionTab header="Header I">
-                    
-                </AccordionTab>
-                <AccordionTab header="Header II">
-                    
-                </AccordionTab>
-                <AccordionTab header="Header III">
-                    
-                </AccordionTab>
+                {
+                    item.map(x => 
+                        <AccordionTab key={`accordion-${x.ItemCode}`} header={x.ItemName}>
+                        </AccordionTab>
+                    )
+                }
             </Accordion>
         </div>
     );
