@@ -2,7 +2,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { userIdLocalStorage } from "./service/Localstorage-config";
 import { useNavigate } from "react-router-dom";
-import { getUsers } from "./service/Users";
+import { getUsers } from "./service/User";
 
 import { ProgressBar } from 'primereact/progressbar';
 import { Dropdown } from 'primereact/dropdown';
