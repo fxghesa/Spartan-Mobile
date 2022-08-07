@@ -1,26 +1,33 @@
 import './App.css';
-import { _ } from "lodash";
 import { useEffect, useState } from 'react';
 import { getUsers } from "./service/users";
 import { Dashboard } from "./app/Dashboard";
 
+import { ProgressBar } from 'primereact/progressbar';
 import { Dropdown } from 'primereact/dropdown';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
   const [users, setUsers] = useState([]);
   const [user, setUser] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    getAllUsers();
+  }, []);
+
+  function getAllUsers() {
     async function fetchFirestore() {
-      const usersDropdown = (await getUsers()).map(x => ({
+      setIsLoading(true);
+      const usersDropdown = (await getUsers()
+      .finally(() => setIsLoading(false))).map(x => ({
         label: x.Name,
         value: x.UserName
       }));
-      setUsers(_.clone(usersDropdown));
+      setUsers(usersDropdown);
     }
     fetchFirestore();
-  });
+  }
 
   function onSelectUser(userId) {
     setUser(userId);
@@ -28,6 +35,10 @@ function App() {
 
   return (
     <div className="App">
+      {
+        isLoading ? <ProgressBar mode="indeterminate" style={{ height: '6px' }}/>
+         : <ProgressBar value={0} style={{ height: '6px' }}/>
+      }
       <br />
       <br />
       <i className="pi pi-cloud" style={{'fontSize': '10em'}}></i>
@@ -37,6 +48,7 @@ function App() {
           <div className="field col-2"></div>
           <div className="field col-8">
             <Dropdown
+              disabled={isLoading}
               value={user} 
               options={users} 
               onChange={(e) => onSelectUser(e.value)} 
