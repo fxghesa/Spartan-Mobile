@@ -11,7 +11,7 @@ import "primeicons/primeicons.css";                                //icons
 import "/node_modules/primeflex/primeflex.css";  
 
 //pages
-import { Dashboard } from "./app/Dashboard";
+import { Dashboard } from "./app/dashboard/Dashboard";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

@@ -1,7 +1,8 @@
 import './App.css';
 import { useEffect, useState } from 'react';
+import { userIdLocalStorage } from "./service/Localstorage-config";
 import { useNavigate } from "react-router-dom";
-import { getUsers } from "./service/users";
+import { getUsers } from "./service/Users";
 
 import { ProgressBar } from 'primereact/progressbar';
 import { Dropdown } from 'primereact/dropdown';
@@ -25,13 +26,17 @@ function App() {
 					value: x.UserName
 				}));
 			setUsers(usersDropdown);
+			let checkUserId = localStorage.getItem(userIdLocalStorage);
+			if (checkUserId !== null) {
+				onSelectUser(checkUserId);
+			}
 		}
 		fetchFirestore();
 	}
 
 	function onSelectUser(userId) {
 		setUser(userId);
-		navigate(`/Dashboard/{userId}`, { replace: true });
+		navigate(`/Dashboard/${userId}`, { replace: true });
 	}
 
   	return (
