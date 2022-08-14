@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
 import { Accordion, AccordionTab } from 'primereact/accordion';
+import { InputNumber } from 'primereact/inputnumber';
 
 export function Dashboard() {
     const navigate = useNavigate();
@@ -36,7 +37,7 @@ export function Dashboard() {
             <br />
 			<br />
 			<br />
-            <div className="App">
+            <div>
                 <AccordionContent loadingSetter={setIsLoading} />
             </div>
         </div>
@@ -45,12 +46,23 @@ export function Dashboard() {
 
 const AccordionContent = ({ loadingSetter })  => {
     const [item, setItem] = useState([]);
-    const [activeIndex, setActiveIndex] = useState(null);
+    const [activeIndex, setActiveIndex] = useState([0]);
 
     useEffect(() => {
 		getAllItemHeader();
         // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
+
+    // useEffect(() => {
+    //     if (activeIndex.length > 0) {
+    //         // activeIndex.pop();
+    //         console.log(activeIndex);
+    //     }
+	// }, [activeIndex]);
+
+    // useEffect(() => {
+    //     console.log(item);
+	// }, [item]);
 
 	function getAllItemHeader() {
 		async function fetchFirestore() {
@@ -82,10 +94,21 @@ const AccordionContent = ({ loadingSetter })  => {
         }
         setActiveIndex(_activeIndex);
     }
+    
+    const onQtyChange = i => e => {
+        let newArr = [...item];
+        newArr[i].QtyLost = newArr[i].QtyOpen - e.target.value;
+        newArr[i].Qty = e.target.value;
+        setItem(newArr);
+    }
+
+    // const onShowLog = () => {
+    //     console.log('open log');
+    // }
 
     return(
         <div>
-            <div className="pt-2 pb-4">
+            <div className="App pt-2 pb-4">
                 {
                     item.map(x => 
                         <Button 
@@ -99,8 +122,31 @@ const AccordionContent = ({ loadingSetter })  => {
             </div>
             <Accordion multiple activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
                 {
-                    item.map(x => 
+                    item.map((x, i) => 
                         <AccordionTab key={`accordion-${x.ItemCode}`} header={x.ItemName}>
+                            <div className="p-fluid grid">
+                                <div className="field col-3">
+                                    <div className="grid">
+                                        <div className="App field col-12 md:col-3">
+                                            <label htmlFor="vertical" style={{display: 'block'}}>Qty</label>
+                                            <InputNumber inputId={`qty-${x.ItemCode}`} value={x.Qty} onValueChange={onQtyChange(i)} showButtons buttonLayout="vertical" style={{width: '4rem'}}
+                                                decrementButtonClassName="p-button-secondary" incrementButtonClassName="p-button-secondary" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="field col-3">
+                                    <label htmlFor="qty-open-label">{`Qty Open`}</label>
+                                    <InputNumber inputId="qty-open" value={x.QtyOpen} readOnly={true} />
+                                    <br />
+			                        <br />
+                                    <label htmlFor="qty-lost-label">{`Qty Lost`}</label>
+                                    <InputNumber inputId="qty-lost" value={x.QtyLost} readOnly={true} />
+                                    
+                                </div>
+                                <div className="field col-6">
+                                    {/* <Button label="Log" onClick={() => onShowLog()} /> */}
+                                </div>
+                            </div>
                         </AccordionTab>
                     )
                 }
