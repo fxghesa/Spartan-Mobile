@@ -1,5 +1,5 @@
 import { db } from "./Firestore-Config";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 
 const itemHeaderRef = collection(db, 'ITEMHEADER');
 
@@ -13,6 +13,40 @@ export async function getItemHeader() {
             console.error(ex.message);
             reject(ex);
         });
-    })
-    
+    });
+}
+
+export async function getItemHeaderId(itemCode) {
+    return new Promise((resolve, reject) => {
+        getDocs(itemHeaderRef).then(result => {
+            let dataList = result.docs.map(x => ({
+                data: x.data(),
+                id: x.id
+            }));
+            let data = dataList.find(x => x.data.ItemCode === itemCode);
+            if (dataList != null) {
+                resolve(data.id);
+            } else {
+                console.error('ItemCodeNotFound');
+                reject();
+            }
+        })
+        .catch(ex => {
+            console.error(ex.message);
+            reject(ex);
+        });
+    });
+}
+
+export async function updateItemHeaderById(id, data) {
+    return new Promise((resolve, reject) => {
+        const itemHeaderRefById = doc(db, 'ITEMHEADER', id);
+        updateDoc(itemHeaderRefById, data).then(result => {
+            resolve(result);
+        })
+        .catch(ex => {
+            console.error(ex.message);
+            reject(ex);
+        });
+    });
 }

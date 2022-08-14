@@ -2,7 +2,7 @@ import './Dashboard.css';
 import '../../App.css';
 import { useEffect, useState } from 'react';
 import { userIdLocalStorage } from "../../service/Localstorage-config";
-import { getItemHeader } from "../../service/Item";
+import { getItemHeader, getItemHeaderId, updateItemHeaderById } from "../../service/Item";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 
@@ -96,10 +96,23 @@ const AccordionContent = ({ loadingSetter })  => {
     }
     
     const onQtyChange = i => e => {
-        let newArr = [...item];
-        newArr[i].QtyLost = newArr[i].QtyOpen - e.target.value;
-        newArr[i].Qty = e.target.value;
-        setItem(newArr);
+        async function fetchFirestore() {
+            let newArr = [...item];
+            newArr[i].QtyLost = newArr[i].QtyOpen - e.target.value;
+            newArr[i].Qty = e.target.value;
+            loadingSetter(true);
+			const id = (await getItemHeaderId(newArr[i].ItemCode)
+            .finally(() => {
+                loadingSetter(false);
+            }));
+            loadingSetter(true);
+			await updateItemHeaderById(id, newArr[i])
+            .finally(() => {
+                loadingSetter(false);
+            });
+            setItem(newArr);
+		}
+		fetchFirestore();
     }
 
     // const onShowLog = () => {
