@@ -52,10 +52,6 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
 		getAllItemHeader();
         // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
-
-    useEffect(() => {
-        console.log(loadingValueRef);
-	}, [loadingValueRef]);
     
 	function getAllItemHeader() {
 		async function fetchFirestore() {
@@ -104,10 +100,6 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
 		}
 		fetchFirestore();
     }
-
-    // const onShowLog = () => {
-    //     console.log('open log');
-    // }
 
     return(
         <div>
