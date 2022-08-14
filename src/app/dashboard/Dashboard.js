@@ -38,13 +38,13 @@ export function Dashboard() {
 			<br />
 			<br />
             <div>
-                <AccordionContent loadingSetter={setIsLoading} />
+                <AccordionContent loadingValueRef={isLoading} loadingSetterRef={setIsLoading} />
             </div>
         </div>
     );
 }
 
-const AccordionContent = ({ loadingSetter })  => {
+const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
     const [item, setItem] = useState([]);
     const [activeIndex, setActiveIndex] = useState([0]);
 
@@ -53,23 +53,16 @@ const AccordionContent = ({ loadingSetter })  => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
-    // useEffect(() => {
-    //     if (activeIndex.length > 0) {
-    //         // activeIndex.pop();
-    //         console.log(activeIndex);
-    //     }
-	// }, [activeIndex]);
-
-    // useEffect(() => {
-    //     console.log(item);
-	// }, [item]);
-
+    useEffect(() => {
+        console.log(loadingValueRef);
+	}, [loadingValueRef]);
+    
 	function getAllItemHeader() {
 		async function fetchFirestore() {
-            loadingSetter(true);
+            loadingSetterRef(true);
 			const usersDropdown = (await getItemHeader()
             .finally(() => {
-                loadingSetter(false);
+                loadingSetterRef(false);
             }));
             usersDropdown.sort((a, b) => (a.ItemCode) - (b.ItemCode));
             setItem(usersDropdown);
@@ -100,15 +93,12 @@ const AccordionContent = ({ loadingSetter })  => {
             let newArr = [...item];
             newArr[i].QtyLost = newArr[i].QtyOpen - e.target.value;
             newArr[i].Qty = e.target.value;
-            loadingSetter(true);
 			const id = (await getItemHeaderId(newArr[i].ItemCode)
-            .finally(() => {
-                loadingSetter(false);
-            }));
-            loadingSetter(true);
+            .finally(() => { }));
+            loadingSetterRef(true);
 			await updateItemHeaderById(id, newArr[i])
             .finally(() => {
-                loadingSetter(false);
+                loadingSetterRef(false);
             });
             setItem(newArr);
 		}
@@ -142,7 +132,7 @@ const AccordionContent = ({ loadingSetter })  => {
                                     <div className="grid">
                                         <div className="App field col-12 md:col-3">
                                             <label htmlFor="vertical" style={{display: 'block'}}>Qty</label>
-                                            <InputNumber inputId={`qty-${x.ItemCode}`} value={x.Qty} onValueChange={onQtyChange(i)} showButtons buttonLayout="vertical" style={{width: '4rem'}}
+                                            <InputNumber inputId={`qty-${x.ItemCode}`} readOnly={loadingValueRef} value={x.Qty} onValueChange={onQtyChange(i)} showButtons buttonLayout="vertical" style={{width: '4rem'}}
                                                 decrementButtonClassName="p-button-secondary" incrementButtonClassName="p-button-secondary" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" />
                                         </div>
                                     </div>
