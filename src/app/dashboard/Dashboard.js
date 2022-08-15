@@ -87,18 +87,24 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
     const onQtyChange = i => e => {
         async function fetchFirestore() {
             let newArr = [...item];
+            const transType = newArr[i].Qty > e.target.value ? 1 : 0;
             newArr[i].QtyLost = newArr[i].QtyOpen - e.target.value;
             newArr[i].Qty = e.target.value;
+            newArr[i].LastUpdateBy = localStorage.getItem(userIdLocalStorage);
 			const id = (await getItemHeaderId(newArr[i].ItemCode)
             .finally(() => { }));
             loadingSetterRef(true);
-			await updateItemHeaderById(id, newArr[i])
+			await updateItemHeaderById(id, newArr[i], transType)
             .finally(() => {
                 loadingSetterRef(false);
             });
             setItem(newArr);
 		}
 		fetchFirestore();
+    }
+
+    function onShowLog() {
+        
     }
 
     return(
@@ -139,7 +145,7 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
                                     
                                 </div>
                                 <div className="field col-6">
-                                    {/* <Button label="Log" onClick={() => onShowLog()} /> */}
+                                    <Button label="Log" style={{width: '5rem'}} onClick={() => onShowLog()} />
                                 </div>
                             </div>
                         </AccordionTab>

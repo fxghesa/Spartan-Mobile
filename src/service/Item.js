@@ -1,8 +1,11 @@
 import { db, isProd } from "./Firestore-Config";
-import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { userIdLocalStorage } from "./Localstorage-config";
+import { collection, doc, getDocs, addDoc, updateDoc } from "firebase/firestore";
 
-const tableName = isProd ? 'ITEMHEADERprod' : 'ITEMHEADER';
-const itemHeaderRef = collection(db, tableName);
+const itemHeadertableName = isProd ? 'ITEMHEADERprod' : 'ITEMHEADER';
+const itemLogtableName = isProd ? 'ITEMLOGprod' : 'ITEMLOG';
+const itemHeaderRef = collection(db, itemHeadertableName);
+const itemLogRef = collection(db, itemLogtableName);
 
 export async function getItemHeader() {
     return new Promise((resolve, reject) => {
@@ -39,10 +42,22 @@ export async function getItemHeaderId(itemCode) {
     });
 }
 
-export async function updateItemHeaderById(id, data) {
+export async function updateItemHeaderById(id, data, transType) {
     return new Promise((resolve, reject) => {
-        const itemHeaderRefById = doc(db, tableName, id);
-        updateDoc(itemHeaderRefById, data).then(result => {
+        const userId = localStorage.getItem(userIdLocalStorage);
+        const itemHeaderRefById = doc(db, itemHeadertableName, id);
+        const dataLog = {
+            CreateBy: userId,
+            CreateDate: new Date(),
+            ItemCode: data.ItemCode,
+            TransType: transType,
+            UpdatedQty: data.Qty
+        };
+        Promise.all([
+            updateDoc(itemHeaderRefById, data), 
+            addDoc(itemLogRef, dataLog)
+        ]).then((result) => {
+            console.log(result);
             resolve(result);
         })
         .catch(ex => {
