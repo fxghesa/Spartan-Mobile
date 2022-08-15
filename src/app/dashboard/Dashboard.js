@@ -179,7 +179,7 @@ const LogList = ({ loadingSetterRef, dataItem })  => {
             dataLogList.forEach(x => {
                 const mapper = {
                     ...x,
-                    CreateDateDesc: moment(x.CreateDate.toDate()).format('DD MMMM YYYY'),
+                    CreateDateDesc: moment(x.CreateDate.toDate()).format('DD MMMM YYYY HH:mm'),
                     TransTypeDesc: x.TransType === 0 ? 'Add' : 'Deduct'
                 }
                 data.push(mapper);
@@ -196,7 +196,7 @@ const LogList = ({ loadingSetterRef, dataItem })  => {
                 <DataTable value={logs} responsiveLayout="scroll">
                     <Column field="CreateBy" header="Create By"></Column>
                     <Column field="TransTypeDesc" header="Trans Type"></Column>
-                    <Column field="UpdatedQty" header="Updated Qty"></Column>
+                    <Column field="UpdatedQty" header="Qty" align="right"></Column>
                     <Column field="CreateDateDesc" header="Update Date"></Column>
                 </DataTable>
             </div>
