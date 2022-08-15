@@ -138,7 +138,7 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
                                     </div>
                                 </div>
                                 <div className="field col-3">
-                                    <label htmlFor="qty-open-label">{`Qty Open`}</label>
+                                    <label htmlFor="qty-open-label">{`Initial Qty`}</label>
                                     <InputNumber inputId="qty-open" value={x.QtyOpen} readOnly={true} />
                                     <br />
 			                        <br />
@@ -152,7 +152,7 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
                             </div>
                             <Divider align="left">
                                 <Button label="Log" onClick={(e) => {op.current.toggle(e)}} icon="pi pi-search" className="p-button-outlined"></Button>
-                                <OverlayPanel ref={op} showCloseIcon id={`overlay-${x.ItemCode}`} style={{width: '390px'}} >
+                                <OverlayPanel ref={op} showCloseIcon key={`overlay-${x.ItemCode}`} id={`overlay-${x.ItemCode}`} style={{width: '390px'}} >
                                     <LogList loadingSetterRef={loadingSetterRef} dataItem={x} />
                                 </OverlayPanel>
                             </Divider>
