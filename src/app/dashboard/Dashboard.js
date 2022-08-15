@@ -1,15 +1,20 @@
 import './Dashboard.css';
 import '../../App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { userIdLocalStorage } from "../../service/Localstorage-config";
-import { getItemHeader, getItemHeaderId, updateItemHeaderById } from "../../service/Item";
+import { getItemHeader, getItemHeaderId, updateItemHeaderById, getItemLogByItemCode } from "../../service/Item";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
+import moment from "moment";
 
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
 import { Accordion, AccordionTab } from 'primereact/accordion';
 import { InputNumber } from 'primereact/inputnumber';
+import { Divider } from 'primereact/divider';
+import { OverlayPanel } from 'primereact/overlaypanel';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
 
 export function Dashboard() {
     const navigate = useNavigate();
@@ -47,6 +52,7 @@ export function Dashboard() {
 const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
     const [item, setItem] = useState([]);
     const [activeIndex, setActiveIndex] = useState([0]);
+    const op = useRef(null);
 
     useEffect(() => {
 		getAllItemHeader();
@@ -84,7 +90,7 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
         setActiveIndex(_activeIndex);
     }
     
-    const onQtyChange = i => e => {
+    const onQtyChange = (i) => e => {
         async function fetchFirestore() {
             let newArr = [...item];
             const transType = newArr[i].Qty > e.target.value ? 1 : 0;
@@ -101,10 +107,6 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
             setItem(newArr);
 		}
 		fetchFirestore();
-    }
-
-    function onShowLog() {
-        
     }
 
     return(
@@ -145,13 +147,59 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
                                     
                                 </div>
                                 <div className="field col-6">
-                                    <Button label="Log" style={{width: '5rem'}} onClick={() => onShowLog()} />
+
                                 </div>
                             </div>
+                            <Divider align="left">
+                                <Button label="Log" onClick={(e) => {op.current.toggle(e)}} icon="pi pi-search" className="p-button-outlined"></Button>
+                                <OverlayPanel ref={op} showCloseIcon id={`overlay-${x.ItemCode}`} style={{width: '390px'}} >
+                                    <LogList loadingSetterRef={loadingSetterRef} dataItem={x} />
+                                </OverlayPanel>
+                            </Divider>
                         </AccordionTab>
                     )
                 }
             </Accordion>
+        </div>
+    );
+}
+
+const LogList = ({ loadingSetterRef, dataItem })  => {
+    const [logs, setLogs] = useState([]);
+
+    useEffect(() => {
+		async function fetchFirestore() {
+            loadingSetterRef(true);
+            const dataLogList = await getItemLogByItemCode(dataItem.ItemCode)
+            .finally(() => {
+                loadingSetterRef(false);
+            });
+            
+            let data = [];
+            dataLogList.forEach(x => {
+                const mapper = {
+                    ...x,
+                    CreateDateDesc: moment(x.CreateDate.toDate()).format('DD MMMM YYYY'),
+                    TransTypeDesc: x.TransType === 0 ? 'Add' : 'Deduct'
+                }
+                data.push(mapper);
+            });
+            setLogs(data);
+        }
+        fetchFirestore();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
+
+    return(
+        <div>
+            <div className="card">
+                <DataTable value={logs} responsiveLayout="scroll">
+                    <Column field="CreateBy" header="Create By"></Column>
+                    <Column field="TransTypeDesc" header="Trans Type"></Column>
+                    <Column field="UpdatedQty" header="Updated Qty"></Column>
+                    <Column field="CreateDateDesc" header="Update Date"></Column>
+                </DataTable>
+            </div>
         </div>
     );
 }
