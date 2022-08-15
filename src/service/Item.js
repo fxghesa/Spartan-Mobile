@@ -1,7 +1,8 @@
-import { db } from "./Firestore-Config";
+import { db, isProd } from "./Firestore-Config";
 import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
 
-const itemHeaderRef = collection(db, 'ITEMHEADER');
+const tableName = isProd ? 'ITEMHEADERprod' : 'ITEMHEADER';
+const itemHeaderRef = collection(db, tableName);
 
 export async function getItemHeader() {
     return new Promise((resolve, reject) => {
@@ -40,7 +41,7 @@ export async function getItemHeaderId(itemCode) {
 
 export async function updateItemHeaderById(id, data) {
     return new Promise((resolve, reject) => {
-        const itemHeaderRefById = doc(db, 'ITEMHEADER', id);
+        const itemHeaderRefById = doc(db, tableName, id);
         updateDoc(itemHeaderRefById, data).then(result => {
             resolve(result);
         })

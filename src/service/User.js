@@ -1,7 +1,8 @@
-import { db } from "./Firestore-Config";
+import { db, isProd } from "./Firestore-Config";
 import { collection, getDocs } from "firebase/firestore";
 
-const usersRef = collection(db, 'USER');
+const tableName = isProd ? 'USERprod' : 'USER';
+const usersRef = collection(db, tableName);
 
 export async function getUsers() {
     return new Promise((resolve, reject) => {
