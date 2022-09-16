@@ -42,6 +42,14 @@ export function Dashboard() {
             <br />
 			<br />
 			<br />
+            <div className="p-fluid grid">
+                <div className="field col-2"></div>
+                <div className="field col-8">
+                    
+                </div>
+                <div className="field col-2"></div>
+            </div>
+            <img alt='dashboardimg' height={270} src={require('../../assets/images/dashboard.jpg')}></img>
             <div>
                 <AccordionContent loadingValueRef={isLoading} loadingSetterRef={setIsLoading} />
             </div>
@@ -194,7 +202,7 @@ const LogList = ({ loadingSetterRef, dataItem })  => {
         <div>
             <div className="card">
                 <DataTable value={logs} responsiveLayout="scroll">
-                    <Column field="CreateBy" header="Create By"></Column>
+                    <Column field="CreateBy" header="Updated By"></Column>
                     <Column field="TransTypeDesc" header="Trans Type"></Column>
                     <Column field="UpdatedQty" header="Qty" align="right"></Column>
                     <Column field="CreateDateDesc" header="Update Date"></Column>

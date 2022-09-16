@@ -15,6 +15,7 @@ function App() {
 
 	useEffect(() => {
 		getAllUsers();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	function getAllUsers() {
@@ -52,15 +53,14 @@ function App() {
 			<br />
 			<br />
 			<br />
-			<br />
-			<br />
-			<br />
-			<i className="pi pi-cloud" style={{'fontSize': '10em'}}></i>
+			<img alt='loginimg' height={270} src={require('./assets/images/wellcome.jpg')}></img>
+			{/* <i className="pi pi-cloud" style={{'fontSize': '10em'}}></i> */}
 			<br />
 			<div className="card">
 				<div className="p-fluid grid">
 					<div className="field col-2"></div>
 						<div className="field col-8">
+							<h4>Good to see you again</h4>
 							<Dropdown
 								disabled={isLoading}
 								value={user} 
