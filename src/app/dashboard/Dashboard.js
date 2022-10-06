@@ -15,11 +15,19 @@ import { Divider } from 'primereact/divider';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
+import { SplitButton } from 'primereact/splitbutton';
 
 export function Dashboard() {
     const navigate = useNavigate();
     const { userid } = useParams();
     const [isLoading, setIsLoading] = useState(false);
+    const menuItems = [{
+        label: 'Log Out',
+        icon: 'pi pi-sign-out',
+        command: (e) => {
+            onClickLogOut();
+        }
+    }];
 
     useEffect(() => {
         localStorage.setItem(userIdLocalStorage, userid);
@@ -37,7 +45,8 @@ export function Dashboard() {
 			: <ProgressBar value={0} style={{ height: '6px' }}/>
 			}
             {/* <div className="pt-2 pb-4"> */}
-                <Button className="LogOut" icon="pi pi-sign-out" onClick={onClickLogOut}/>
+                {/* <Button className="LogOut" icon="pi pi-sign-out" onClick={onClickLogOut}/> */}
+                <SplitButton label="Dashboard" model={menuItems} className="p-button-text p-button-primary mr-2 mb-2 LogOut"></SplitButton>
             {/* </div> */}
             <br />
 			<br />
@@ -94,20 +103,21 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
     const onQtyChange = (i) => e => {
         async function fetchFirestore() {
             let newArr = [...item];
+            e.target.value = e.target.value !== null ? e.target.value : newArr[i].Qty;
             const transType = newArr[i].Qty > e.target.value ? 1 : 0;
             newArr[i].QtyLost = newArr[i].QtyOpen - e.target.value;
             newArr[i].Qty = e.target.value;
             newArr[i].LastUpdateBy = localStorage.getItem(userIdLocalStorage);
-			const id = (await getItemHeaderId(newArr[i].ItemCode)
+            const id = (await getItemHeaderId(newArr[i].ItemCode)
             .finally(() => { }));
             loadingSetterRef(true);
-			await updateItemHeaderById(id, newArr[i], transType)
+            await updateItemHeaderById(id, newArr[i], transType)
             .finally(() => {
                 loadingSetterRef(false);
             });
             setItem(newArr);
-		}
-		fetchFirestore();
+        }
+        fetchFirestore();
     }
 
     return(
