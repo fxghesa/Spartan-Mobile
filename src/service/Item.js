@@ -3,8 +3,8 @@ import { userIdLocalStorage } from "./Localstorage-config";
 import { collection, doc, getDocs, addDoc, updateDoc } from "firebase/firestore";
 import { query, where, orderBy, limit } from "firebase/firestore";
 
-const itemHeadertableName = isProd ? 'ITEMHEADERprod' : 'ITEMHEADER';
-const itemLogtableName = isProd ? 'ITEMLOGprod' : 'ITEMLOG';
+const itemHeadertableName = isProd ? 'ITEMHEADER' : 'ITEMHEADERQC';
+const itemLogtableName = isProd ? 'ITEMLOG' : 'ITEMLOGQC';
 const itemHeaderRef = collection(db, itemHeadertableName);
 const itemLogRef = collection(db, itemLogtableName);
 
