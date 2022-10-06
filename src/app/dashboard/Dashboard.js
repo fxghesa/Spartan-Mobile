@@ -15,27 +15,43 @@ import { Divider } from 'primereact/divider';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
-import { SplitButton } from 'primereact/splitbutton';
+import { Menu } from 'primereact/menu';
+import { Fieldset } from 'primereact/fieldset';
 
 export function Dashboard() {
     const navigate = useNavigate();
     const { userid } = useParams();
     const [isLoading, setIsLoading] = useState(false);
+    const menu = useRef(null);
     const menuItems = [{
         label: 'Log Out',
         icon: 'pi pi-sign-out',
         command: (e) => {
-            onClickLogOut();
+            localStorage.removeItem(userIdLocalStorage);
+            navigate("/", { replace: true });
         }
     }];
+    const [summaryQtyOpen, setSummaryQtyOpen] = useState(0);
+    const [summaryQtyLost, setSummaryQtyLost] = useState(0);
+    const [summaryQty, setSummaryQty] = useState(0);
 
     useEffect(() => {
         localStorage.setItem(userIdLocalStorage, userid);
+        refreshSummary();
     }, [userid]);
 
-    function onClickLogOut() {
-        localStorage.removeItem(userIdLocalStorage);
-        navigate("/", { replace: true });
+    function refreshSummary() {
+        async function fetchFirestore() {
+            setIsLoading(true);
+			const result = (await getItemHeader()
+            .finally(() => {
+                setIsLoading(false);
+            }));
+            setSummaryQtyOpen(result.map(x => x.QtyOpen).reduce((a, b) => a + b, 0));
+            setSummaryQtyLost(result.map(x => x.QtyLost).reduce((a, b) => a + b, 0));
+            setSummaryQty(result.map(x => x.Qty).reduce((a, b) => a + b, 0));
+		}
+		fetchFirestore();
     }
     
     return (
@@ -44,22 +60,36 @@ export function Dashboard() {
 			isLoading ? <ProgressBar mode="indeterminate" style={{ height: '6px' }}/>
 			: <ProgressBar value={0} style={{ height: '6px' }}/>
 			}
-            {/* <div className="pt-2 pb-4"> */}
-                {/* <Button className="LogOut" icon="pi pi-sign-out" onClick={onClickLogOut}/> */}
-                <SplitButton label="Dashboard" model={menuItems} className="p-button-text p-button-primary mr-2 mb-2 LogOut"></SplitButton>
-            {/* </div> */}
+            <Menu model={menuItems} popup ref={menu} />
+            <Button label="" icon="pi pi-bars" className="p-button-text p-button-primary mr-2 mb-2 LogOut" onClick={(event) => menu.current.toggle(event)}/>
             <br />
-			<br />
-			<br />
             <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={270} src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fdashboard.jpg?alt=media&token=95d2fb2c-cd7d-42d8-8443-2b7cd191771a'}></img>
-            <div>
-                <AccordionContent loadingValueRef={isLoading} loadingSetterRef={setIsLoading} />
+            <div className="p-fluid grid">
+                <div className="field col-1"></div>
+                <div className="field col-10">
+                    <Fieldset legend="Summary" toggleable>
+                    <div className="p-fluid grid">
+                        <div className="field col-10 summary-label">
+                            <label htmlFor="qty-initial-summary-label">{`Qty Initial`} : </label><br />
+                            <label htmlFor="qty-lost-summary-label">{`Qty Lost`} : </label><br />
+                            <label htmlFor="qty-summary-label">{`Qty`} : </label>
+                        </div>
+                        <div className="field col-2 summary-qty">
+                            <label htmlFor="qty-initial-summary">{summaryQtyOpen}</label><br />
+                            <label htmlFor="qty-lost-summary">{summaryQtyLost}</label><br />
+                            <label htmlFor="qty-summary">{summaryQty}</label>
+                        </div>
+                    </div>
+                    </Fieldset>
+                </div>
+                <div className="field col-1"></div>
             </div>
+            <AccordionContent loadingValueRef={isLoading} loadingSetterRef={setIsLoading} refreshSummaryRef={refreshSummary}/>
         </div>
     );
 }
 
-const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
+const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef })  => {
     const [item, setItem] = useState([]);
     const [activeIndex, setActiveIndex] = useState([0]);
     const op = useRef(null);
@@ -72,12 +102,12 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
 	function getAllItemHeader() {
 		async function fetchFirestore() {
             loadingSetterRef(true);
-			const usersDropdown = (await getItemHeader()
+			const result = (await getItemHeader()
             .finally(() => {
                 loadingSetterRef(false);
             }));
-            usersDropdown.sort((a, b) => (a.ItemCode) - (b.ItemCode));
-            setItem(usersDropdown);
+            result.sort((a, b) => (a.ItemCode) - (b.ItemCode));
+            setItem(result);
 		}
 		fetchFirestore();
 	}
@@ -113,6 +143,7 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
             loadingSetterRef(true);
             await updateItemHeaderById(id, newArr[i], transType)
             .finally(() => {
+                refreshSummaryRef();
                 loadingSetterRef(false);
             });
             setItem(newArr);
@@ -158,7 +189,7 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
                                     
                                 </div>
                                 <div className="field col-6">
-
+                                <img htmlFor='imgdetail' key={'imgdetail'} id='imgdetail' alt='imgdetail' height={162} src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fqty-detail.png?alt=media&token=fcb10197-b75d-459c-98cd-c496d2b46c4d'}></img>
                                 </div>
                             </div>
                             <Divider align="left">
