@@ -74,6 +74,8 @@ https://capacitorjs.com/solution/react
 
 ### export studio.sh path:
 export CAPACITOR_ANDROID_STUDIO_PATH="/home/ghesa/android-studio/bin/studio.sh"
+or
+export CAPACITOR_ANDROID_STUDIO_PATH="/home/ghesa/Documents/program/android-studio/bin/studio.sh"
 
 ### build capacitor:
 https://capacitorjs.com/docs/v2/basics/building-your-app

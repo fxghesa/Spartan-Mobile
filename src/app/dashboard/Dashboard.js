@@ -42,14 +42,7 @@ export function Dashboard() {
             <br />
 			<br />
 			<br />
-            <div className="p-fluid grid">
-                <div className="field col-2"></div>
-                <div className="field col-8">
-                    
-                </div>
-                <div className="field col-2"></div>
-            </div>
-            <img alt='dashboardimg' height={270} src={require('../../assets/images/dashboard.jpg')}></img>
+            <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={270} src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fdashboard.jpg?alt=media&token=95d2fb2c-cd7d-42d8-8443-2b7cd191771a'}></img>
             <div>
                 <AccordionContent loadingValueRef={isLoading} loadingSetterRef={setIsLoading} />
             </div>
@@ -80,23 +73,23 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
 		fetchFirestore();
 	}
 
-    const onClick = (itemIndex) => {
-        let _activeIndex = activeIndex ? [...activeIndex] : [];
+    // const onClick = (itemIndex) => {
+    //     let _activeIndex = activeIndex ? [...activeIndex] : [];
 
-        if (_activeIndex.length === 0) {
-            _activeIndex.push(itemIndex);
-        }
-        else {
-            const index = _activeIndex.indexOf(itemIndex);
-            if (index === -1) {
-                _activeIndex.push(itemIndex);
-            }
-            else {
-                _activeIndex.splice(index, 1);
-            }
-        }
-        setActiveIndex(_activeIndex);
-    }
+    //     if (_activeIndex.length === 0) {
+    //         _activeIndex.push(itemIndex);
+    //     }
+    //     else {
+    //         const index = _activeIndex.indexOf(itemIndex);
+    //         if (index === -1) {
+    //             _activeIndex.push(itemIndex);
+    //         }
+    //         else {
+    //             _activeIndex.splice(index, 1);
+    //         }
+    //     }
+    //     setActiveIndex(_activeIndex);
+    // }
     
     const onQtyChange = (i) => e => {
         async function fetchFirestore() {
@@ -119,7 +112,7 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
 
     return(
         <div>
-            <div className="App pt-2 pb-4">
+            {/* <div className="App pt-2 pb-4">
                 {
                     item.map(x => 
                         <Button 
@@ -130,8 +123,8 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef })  => {
                             className="p-button-text" />
                     )
                 }
-            </div>
-            <Accordion multiple activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+            </div> */}
+            <Accordion activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
                 {
                     item.map((x, i) => 
                         <AccordionTab key={`accordion-${x.ItemCode}`} header={x.ItemName}>

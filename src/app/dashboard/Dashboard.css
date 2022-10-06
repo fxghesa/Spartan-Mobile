@@ -1,10 +1,3 @@
-.Dashboard {
-	/* display: flex; */
-	justify-content: center;
-	align-items: center;
-	text-align: center;
-	/* min-height: 100vh; */
-}
 .LogOut {
     position: absolute;
     right: 0;

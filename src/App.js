@@ -53,8 +53,7 @@ function App() {
 			<br />
 			<br />
 			<br />
-			<img alt='loginimg' height={270} src={require('./assets/images/wellcome.jpg')}></img>
-			{/* <i className="pi pi-cloud" style={{'fontSize': '10em'}}></i> */}
+			<img id='imglogin' alt='imglogin' height={270} src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fwellcome.jpg?alt=media&token=b0b05a96-4208-4cff-9949-b3a6c7dc4e1a'}></img>
 			<br />
 			<div className="card">
 				<div className="p-fluid grid">
