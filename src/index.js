@@ -8,10 +8,11 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "primereact/resources/themes/lara-light-indigo/theme.css";  //theme
 import "primereact/resources/primereact.min.css";                  //core css
 import "primeicons/primeicons.css";                                //icons
-import "/node_modules/primeflex/primeflex.css";  
+import "primeflex/primeflex.css";  
 
 //pages
 import { Dashboard } from "./app/dashboard/Dashboard";
+import { Simulation } from "./app/simulation/Simulation";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -20,6 +21,7 @@ root.render(
 			<Routes>
 				<Route path="/" exac element={<App />}></Route>
 				<Route path="/Dashboard/:userid" element={<Dashboard />} />
+				<Route path="/Simulation" element={<Simulation />} />
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>

@@ -23,14 +23,23 @@ export function Dashboard() {
     const { userid } = useParams();
     const [isLoading, setIsLoading] = useState(false);
     const menu = useRef(null);
-    const menuItems = [{
-        label: 'Log Out',
-        icon: 'pi pi-sign-out',
-        command: (e) => {
-            localStorage.removeItem(userIdLocalStorage);
-            navigate("/", { replace: true });
+    const menuItems = [
+        {
+            label: 'Simulation',
+            icon: 'pi pi-book',
+            command: (e) => {
+                navigate("/Simulation", { replace: true });
+            }
+        },
+        {
+            label: 'Log Out',
+            icon: 'pi pi-sign-out',
+            command: (e) => {
+                localStorage.removeItem(userIdLocalStorage);
+                navigate("/", { replace: true });
+            }
         }
-    }];
+    ];
     const [summaryQtyOpen, setSummaryQtyOpen] = useState(0);
     const [summaryQtyLost, setSummaryQtyLost] = useState(0);
     const [summaryQty, setSummaryQty] = useState(0);
