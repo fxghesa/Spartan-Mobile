@@ -20,6 +20,8 @@ export function Simulation() {
             command: (e) => {
                 if (userId != null && userId !== '') {
                     navigate(`/Dashboard/${userId}`, { replace: true });   
+                } else {
+                    navigate("/", { replace: true });
                 }
             }
         },
@@ -34,6 +36,9 @@ export function Simulation() {
     ];
     const [initPrice, setInitPrice] = useState();
     const [finalPrice, setFinalPrice] = useState();
+    const [initQty, setInitQty] = useState(0);
+    const [qtyLost, setQtyLost] = useState(0);
+    const [calculatedProfit] = useState(0);
 
     useEffect(() => {
         let checkUserId = localStorage.getItem(userIdLocalStorage);
@@ -75,6 +80,32 @@ export function Simulation() {
                     </Fieldset>
                 </div>
                 <div className="field col-1"></div>
+            </div>
+            <div className="p-fluid grid formgrid">
+                <div className="field col-1"></div>
+                <div className="field col-5">
+                    <label htmlFor="integeronly">Initial Qty</label>
+                    <InputNumber inputId="integeronly" inputStyle={{'textAlign': 'right'}} value={initQty} onValueChange={(e) => setInitQty(e.value)} allowEmpty={false} />
+                </div>
+                <div className="field col-5">
+                    <label htmlFor="integeronly">Qty Lost</label>
+                    <InputNumber inputId="integeronly" inputStyle={{'textAlign': 'right'}} value={qtyLost} onValueChange={(e) => setQtyLost(e.value)} allowEmpty={false} />
+                </div>
+                <div className="field col-1"></div>
+            </div>
+            <div className="p-fluid grid formgrid">
+                <div className="field col-4">
+                </div>
+                <div className="field col-4">
+                    <br />
+                    <Button label="Calculate" loading={isLoading} icon="pi pi-search" iconPos="left" />
+                </div>
+                <div className="field col-4"></div>
+            </div>
+            <div style={{'textAlign': 'center'}}>
+                <h3>
+                    Profit probability : Rp {calculatedProfit}
+                </h3>
             </div>
         </div>
     );

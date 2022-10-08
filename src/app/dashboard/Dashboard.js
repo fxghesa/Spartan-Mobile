@@ -25,7 +25,7 @@ export function Dashboard() {
     const menu = useRef(null);
     const menuItems = [
         {
-            label: 'Simulation',
+            label: 'Simulator',
             icon: 'pi pi-book',
             command: (e) => {
                 navigate("/Simulation", { replace: true });
@@ -78,10 +78,15 @@ export function Dashboard() {
                 <div className="field col-10">
                     <Fieldset legend="Summary" toggleable>
                     <div className="p-fluid grid">
-                        <div className="field col-10 summary-label">
-                            <label htmlFor="qty-initial-summary-label">{`Qty Initial`} : </label><br />
-                            <label htmlFor="qty-lost-summary-label">{`Qty Lost`} : </label><br />
-                            <label htmlFor="qty-summary-label">{`Qty`} : </label>
+                        <div className="field col-1">
+                            <i className="pi pi-box" style={{'fontSize': '1.5em'}}></i><br />
+                            <i className="pi pi-box" style={{'fontSize': '1.5em'}}></i><br />
+                            <i className="pi pi-box" style={{'fontSize': '1.5em'}}></i>
+                        </div>
+                        <div className="field col-9 summary-label">
+                            <label htmlFor="qty-initial-summary-label">&nbsp;{`Qty Initial`} : </label><br />
+                            <label htmlFor="qty-lost-summary-label">&nbsp;{`Qty Lost`} : </label><br />
+                            <label htmlFor="qty-summary-label">&nbsp;{`Qty`} : </label>
                         </div>
                         <div className="field col-2 summary-qty">
                             <label htmlFor="qty-initial-summary">{summaryQtyOpen}</label><br />
@@ -189,6 +194,7 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                                     </div>
                                 </div>
                                 <div className="field col-3">
+
                                     <label htmlFor="qty-open-label">{`Initial Qty`}</label>
                                     <InputNumber inputId="qty-open" value={x.QtyOpen} readOnly={true} />
                                     <br />
