@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useNavigate } from "react-router-dom";
 import { userIdLocalStorage } from "../../service/Localstorage-config";
+import { InsertOrUpdateSimulationHeader, GetExistingSimulationHeader } from "../../service/Simulation";
 
 import { ProgressBar } from 'primereact/progressbar';
 import { Button } from 'primereact/button';
@@ -38,15 +39,59 @@ export function Simulation() {
     const [finalPrice, setFinalPrice] = useState();
     const [initQty, setInitQty] = useState(0);
     const [qtyLost, setQtyLost] = useState(0);
-    const [calculatedProfit] = useState(0);
+    const [calculatedProfit, setCalculatedProfit] = useState(0);
 
     useEffect(() => {
-        let checkUserId = localStorage.getItem(userIdLocalStorage);
+        const checkUserId = localStorage.getItem(userIdLocalStorage);
         if (checkUserId == null || checkUserId === '') {
             navigate("/", { replace: true });
+        } else {
+            setUserId(checkUserId);
+            async function fetchFirestore() {
+                const result = (await GetExistingSimulationHeader(checkUserId)
+                .finally(() => {
+                    setIsLoading(false);
+                }));
+                if (result != null) {
+                    if (result.length > 0) {
+                        const datas = result.find(x => x).data;
+                        setInitPrice(datas.InitPrice);
+                        setFinalPrice(datas.FinalPrice);
+                        setInitQty(datas.InitQty);
+                        setQtyLost(datas.QtyLost);
+                    }
+                }
+            }
+            fetchFirestore();
         }
-        setUserId(checkUserId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
+    function calculateClick() {
+        async function fetchFirestore() {
+            const dataPost = {
+                initPrice: initPrice,
+                finalPrice: finalPrice,
+                initQty: initQty,
+                qtyLost: qtyLost
+            };
+            setIsLoading(true);
+            const result = (await InsertOrUpdateSimulationHeader(dataPost)
+            .finally(() => {
+                setIsLoading(false);
+            }));
+            if (result != null) {
+                initCalculation();
+            }
+        }
+        fetchFirestore();
+    }
+
+    function initCalculation() {
+        const qty = initQty - qtyLost;
+        const calculatedProfit = (qty * finalPrice) - (qty * initPrice);
+        setCalculatedProfit(calculatedProfit);
+    }
 
     return (
         <div>
@@ -98,13 +143,13 @@ export function Simulation() {
                 </div>
                 <div className="field col-4">
                     <br />
-                    <Button label="Calculate" loading={isLoading} icon="pi pi-search" iconPos="left" />
+                    <Button label="Calculate" loading={isLoading} onClick={calculateClick} icon="pi pi-search" iconPos="left" />
                 </div>
                 <div className="field col-4"></div>
             </div>
             <div style={{'textAlign': 'center'}}>
                 <h3>
-                    Profit probability : Rp {calculatedProfit}
+                    Profit probability : Rp {calculatedProfit.toLocaleString()}
                 </h3>
             </div>
         </div>
