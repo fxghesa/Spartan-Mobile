@@ -1,0 +1,10 @@
+{
+    "en": {
+        "greeting": "Good to see you again",
+        "userSelectionPrompt": "Select a User"
+    },
+    "id": {
+        "greeting": "Halo dunia",
+        "userSelectionPrompt": "Pilih User"
+    }
+}

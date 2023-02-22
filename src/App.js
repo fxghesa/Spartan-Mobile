@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import { userIdLocalStorage } from "./service/Localstorage-config";
 import { useNavigate } from "react-router-dom";
 import { getUsers } from "./service/User";
+import LocalizedStrings from 'react-localization';
+import * as localizedLabel from "./service/localization.json";
 
 import { ProgressBar } from 'primereact/progressbar';
 import { Dropdown } from 'primereact/dropdown';
@@ -12,6 +14,13 @@ function App() {
 	const [users, setUsers] = useState([]);
 	const [user, setUser] = useState('');
 	const [isLoading, setIsLoading] = useState(false);
+	const labelHelper = new LocalizedStrings(localizedLabel);
+	const languangeList = labelHelper.getAvailableLanguages().map(x => ({
+		label: (x !== 'default') ? x.toLocaleUpperCase(): x,
+		value: x
+	}));
+	const [languange, setLanguage] = useState("id");
+	labelHelper.setLanguage(languange);
 
 	useEffect(() => {
 		getAllUsers();
@@ -40,6 +49,11 @@ function App() {
 		navigate(`/Dashboard/${userId}`, { replace: true });
 	}
 
+	function setLocalization(languange) {
+		setLanguage(languange);
+		labelHelper.setLanguage(languange);
+	}
+
   	return (
 		<div className="App">
 			{
@@ -59,16 +73,31 @@ function App() {
 				<div className="p-fluid grid">
 					<div className="field col-2"></div>
 						<div className="field col-8">
-							<h4>Good to see you again</h4>
+							<h4>{labelHelper.greeting}</h4>
 							<Dropdown
 								disabled={isLoading}
 								value={user} 
 								options={users} 
 								onChange={(e) => onSelectUser(e.value)} 
-								placeholder="Select a User">
+								placeholder={labelHelper.userSelectionPrompt}>
 							</Dropdown>
+							<br />
 						</div>
 					<div className="field col-2"></div>
+				</div>
+				<div className="p-fluid grid">
+					<div className="field col-4"></div>
+						<div className="field col-4">
+							<div style={{ transform: 'scale(0.8)' }}>
+								<Dropdown
+									disabled={isLoading}
+									value={languange} 
+									options={languangeList}
+									onChange={(e) => setLocalization(e.value)}
+									placeholder="Select a Country" />
+							</div>
+						</div>
+					<div className="field col-4"></div>
 				</div>
 			</div>
 		</div>
