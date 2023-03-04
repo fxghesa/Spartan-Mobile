@@ -1,6 +1,7 @@
 import { db, isProd } from "./Firestore-Config";
 import { collection, getDocs } from "firebase/firestore";
 import { query, orderBy } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 const tableName = isProd ? 'USER' : 'USERQC';
 const usersRef = collection(db, tableName);
@@ -18,6 +19,21 @@ export async function getUsers() {
             console.error(ex.message);
             reject(ex);
         });
-    })
-    
+    });
 }
+
+// currently unused: firestore rules currently set free read/write
+export async function authenticatingLocal() {
+    const auth = getAuth();
+    const email = 'ghesa@gmail.com';
+    const password = '123qwe';
+    signInWithEmailAndPassword(auth, email, password)
+    .then((userCredential) => {
+        console.log('auth using ' + userCredential.user)
+    })
+    .catch((ex) => {
+        console.error(ex.message);
+    });
+}
+
+
