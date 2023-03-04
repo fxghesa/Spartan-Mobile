@@ -17,6 +17,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Menu } from 'primereact/menu';
 import { Fieldset } from 'primereact/fieldset';
+import { Knob } from 'primereact/knob';
 
 export function Dashboard() {
     const navigate = useNavigate();
@@ -165,6 +166,20 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
         fetchFirestore();
     }
 
+    function getKnobColor(temperatureValue) {
+        switch (true) {
+            default:
+            case temperatureValue < 25:
+                return '#48d1cc';
+            case temperatureValue >= 25 && temperatureValue < 30:
+                return '#3ad068';
+            case temperatureValue >= 30 && temperatureValue < 34:
+                return '#FFBD44';
+            case temperatureValue >= 34:
+                return '#FF605C';
+        }
+    }
+
     return(
         <div>
             {/* <div className="App pt-2 pb-4">
@@ -184,6 +199,23 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                     item.map((x, i) => 
                         <AccordionTab key={`accordion-${x.ItemCode}`} header={x.ItemName}>
                             <div className="p-fluid grid">
+                                <div className="field col-6 temperature-label">
+                                    <label htmlFor="temp-label">{`Temperature`}</label>
+                                    <br />
+                                    <br />
+                                    <div className="temperature-value">
+                                        { x.TemperatureValue < 25 ? <label htmlFor="temp-value-lbl">{`Cool`}</label> : null }
+                                        { x.TemperatureValue >= 25 && x.TemperatureValue < 30 ? <label htmlFor="temp-value-lbl">{`Normal`}</label> : null }
+                                        { x.TemperatureValue >= 30 && x.TemperatureValue < 34 ? <label htmlFor="temp-value-lbl">{`Warm`}</label> : null }
+                                        { x.TemperatureValue >= 34 ? <label htmlFor="temp-value-lbl">{`Hot`}</label> : null }
+                                    </div>
+                                </div>
+                                <div className="field col-6">
+                                    <Knob value={x.TemperatureValue} size={150} min={20} max={40} readOnly={true} 
+                                    valueColor="#708090" rangeColor={getKnobColor(x.TemperatureValue)} valueTemplate={`${Math.round(x.TemperatureValue)}°C`} />
+                                </div>
+                            </div>
+                            <div className="p-fluid grid">
                                 <div className="field col-3">
                                     <div className="grid">
                                         <div className="App field col-12 md:col-3">
@@ -194,14 +226,12 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                                     </div>
                                 </div>
                                 <div className="field col-3">
-
                                     <label htmlFor="qty-open-label">{`Initial Qty`}</label>
                                     <InputNumber inputId="qty-open" value={x.QtyOpen} readOnly={true} />
                                     <br />
 			                        <br />
                                     <label htmlFor="qty-lost-label">{`Qty Lost`}</label>
                                     <InputNumber inputId="qty-lost" value={x.QtyLost} readOnly={true} />
-                                    
                                 </div>
                                 <div className="field col-6">
                                 <img htmlFor='imgdetail' key={'imgdetail'} id='imgdetail' alt='imgdetail' height={162} src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fqty-detail.png?alt=media&token=fcb10197-b75d-459c-98cd-c496d2b46c4d'}></img>

@@ -10,3 +10,9 @@
     text-align: right;
     font-weight: bold;
 }
+.temperature-label {
+    font-size: 1.500em;
+}
+.temperature-value {
+    font-size: 1.600em;
+}
