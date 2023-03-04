@@ -194,7 +194,7 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                     )
                 }
             </div> */}
-            <Accordion activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+            <Accordion activeIndex={activeIndex} onTabChange={(e) => {setActiveIndex(e.index); getAllItemHeader()}}>
                 {
                     item.map((x, i) => 
                         <AccordionTab key={`accordion-${x.ItemCode}`} header={x.ItemName}>
