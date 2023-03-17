@@ -169,11 +169,11 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
     function getKnobColor(temperatureValue) {
         switch (true) {
             default:
-            case temperatureValue < 25:
+            case temperatureValue < 26:
                 return '#48d1cc';
-            case temperatureValue >= 25 && temperatureValue < 30:
+            case temperatureValue >= 26 && temperatureValue < 31:
                 return '#3ad068';
-            case temperatureValue >= 30 && temperatureValue < 34:
+            case temperatureValue >= 31 && temperatureValue < 34:
                 return '#FFBD44';
             case temperatureValue >= 34:
                 return '#FF605C';
@@ -204,9 +204,9 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                                     <br />
                                     <br />
                                     <div className="temperature-value">
-                                        { x.TemperatureValue < 25 ? <label htmlFor="temp-value-lbl">{`Cool`}</label> : null }
-                                        { x.TemperatureValue >= 25 && x.TemperatureValue < 30 ? <label htmlFor="temp-value-lbl">{`Normal`}</label> : null }
-                                        { x.TemperatureValue >= 30 && x.TemperatureValue < 34 ? <label htmlFor="temp-value-lbl">{`Warm`}</label> : null }
+                                        { x.TemperatureValue < 26 ? <label htmlFor="temp-value-lbl">{`Cool`}</label> : null }
+                                        { x.TemperatureValue >= 26 && x.TemperatureValue < 31 ? <label htmlFor="temp-value-lbl">{`Normal`}</label> : null }
+                                        { x.TemperatureValue >= 31 && x.TemperatureValue < 34 ? <label htmlFor="temp-value-lbl">{`Warm`}</label> : null }
                                         { x.TemperatureValue >= 34 ? <label htmlFor="temp-value-lbl">{`Hot`}</label> : null }
                                     </div>
                                 </div>
