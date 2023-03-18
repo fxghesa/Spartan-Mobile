@@ -54,6 +54,7 @@ export function Simulation() {
             navigate("/", { replace: true });
         } else {
             setUserId(checkUserId);
+            setIsLoading(true);
             async function fetchFirestore() {
                 const result = (await GetExistingSimulationHeader(checkUserId)
                 .finally(() => {
