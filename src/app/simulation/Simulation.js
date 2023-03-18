@@ -27,6 +27,13 @@ export function Simulation() {
             }
         },
         {
+            label: 'Report',
+            icon: 'pi pi-chart-line',
+            command: (e) => {
+                navigate("/Report", { replace: true });
+            }
+        },
+        {
             label: 'Log Out',
             icon: 'pi pi-sign-out',
             command: (e) => {
@@ -101,7 +108,8 @@ export function Simulation() {
             }
             <Menu model={menuItems} popup ref={menu} />
             <Button label="" icon="pi pi-bars" className="p-button-text p-button-primary mr-2 mb-2 LogOut" onClick={(event) => menu.current.toggle(event)}/>
-            <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={400} src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fsimulation.png?alt=media&token=a29f450f-e65d-43f6-9bcf-4dcb873b26ee'}></img>
+            <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={400} 
+            src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fsimulation.webp?alt=media&token=0de0a761-f4e2-4742-9bf7-98202162a89e'}></img>
             <div className="p-fluid grid">
                 <div className="field col-1"></div>
                 <div className="field col-10">

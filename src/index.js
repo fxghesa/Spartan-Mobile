@@ -13,6 +13,7 @@ import "primeflex/primeflex.css";
 //pages
 import { Dashboard } from "./app/dashboard/Dashboard";
 import { Simulation } from "./app/simulation/Simulation";
+import { Report } from "./app/report/Report";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -22,6 +23,7 @@ root.render(
 				<Route path="/" exac element={<App />}></Route>
 				<Route path="/Dashboard/:userid" element={<Dashboard />} />
 				<Route path="/Simulation" element={<Simulation />} />
+				<Route path="/Report" element={<Report />} />
 			</Routes>
 		</BrowserRouter>
 	</React.StrictMode>

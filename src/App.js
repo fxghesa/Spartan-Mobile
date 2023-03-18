@@ -67,7 +67,8 @@ function App() {
 			<br />
 			<br />
 			<br />
-			<img id='imglogin' alt='imglogin' height={270} src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fwellcome.jpg?alt=media&token=b0b05a96-4208-4cff-9949-b3a6c7dc4e1a'}></img>
+			<img id='imglogin' alt='imglogin' height={270} 
+			src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fwellcome.webp?alt=media&token=225663f4-0f4b-4c9a-bffe-c938552e9659'}></img>
 			<br />
 			<div className="card">
 				<div className="p-fluid grid">

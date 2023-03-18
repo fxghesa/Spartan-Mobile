@@ -33,6 +33,13 @@ export function Dashboard() {
             }
         },
         {
+            label: 'Report',
+            icon: 'pi pi-chart-line',
+            command: (e) => {
+                navigate("/Report", { replace: true });
+            }
+        },
+        {
             label: 'Log Out',
             icon: 'pi pi-sign-out',
             command: (e) => {
@@ -73,7 +80,8 @@ export function Dashboard() {
             <Menu model={menuItems} popup ref={menu} />
             <Button label="" icon="pi pi-bars" className="p-button-text p-button-primary mr-2 mb-2 LogOut" onClick={(event) => menu.current.toggle(event)}/>
             <br />
-            <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={270} src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fdashboard.jpg?alt=media&token=95d2fb2c-cd7d-42d8-8443-2b7cd191771a'}></img>
+            <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={270} 
+            src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fdashboard.webp?alt=media&token=a4e6d1cb-c8b9-4b9c-a1be-486250014e0d'}></img>
             <div className="p-fluid grid">
                 <div className="field col-1"></div>
                 <div className="field col-10">
@@ -211,8 +219,8 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                                     </div>
                                 </div>
                                 <div className="field col-6">
-                                    <Knob value={x.TemperatureValue} size={150} min={20} max={40} readOnly={true} 
-                                    valueColor="#708090" rangeColor={getKnobColor(x.TemperatureValue)} valueTemplate={`${Math.round(x.TemperatureValue)}°C`} />
+                                    <Knob value={x.TemperatureValue} size={160} min={20} max={40} readOnly={true} 
+                                    valueColor="#708090" rangeColor={getKnobColor(x.TemperatureValue)} valueTemplate={`${Math.round(x.TemperatureValue * 1) / 1}°C`} />
                                 </div>
                             </div>
                             <div className="p-fluid grid">
@@ -234,7 +242,8 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                                     <InputNumber inputId="qty-lost" value={x.QtyLost} readOnly={true} />
                                 </div>
                                 <div className="field col-6">
-                                <img htmlFor='imgdetail' key={'imgdetail'} id='imgdetail' alt='imgdetail' height={162} src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fqty-detail.png?alt=media&token=fcb10197-b75d-459c-98cd-c496d2b46c4d'}></img>
+                                <img htmlFor='imgdetail' key={'imgdetail'} id='imgdetail' alt='imgdetail' height={162} 
+                                src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fqty-detail.webp?alt=media&token=bcb8e89c-fedb-4828-b5aa-e2805fc07ad1'}></img>
                                 </div>
                             </div>
                             <Divider align="left">

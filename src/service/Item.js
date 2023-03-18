@@ -5,8 +5,10 @@ import { query, where, orderBy, limit } from "firebase/firestore";
 
 const itemHeadertableName = isProd ? 'ITEMHEADER' : 'ITEMHEADERQC';
 const itemLogtableName = isProd ? 'ITEMLOG' : 'ITEMLOGQC';
+const itemSensorLogtableName = isProd ? 'ITEMSENSORLOG' : 'ITEMSENSORLOGQC';
 const itemHeaderRef = collection(db, itemHeadertableName);
 const itemLogRef = collection(db, itemLogtableName);
+const itemSensorLogRef = collection(db, itemSensorLogtableName);
 
 export async function getItemHeader() {
     return new Promise((resolve, reject) => {
@@ -72,6 +74,23 @@ export async function getItemLogByItemCode(itemCode) {
         const selectStatement = query(itemLogRef, 
             where("ItemCode", "==", itemCode), 
             orderBy("CreateDate", "desc"), limit(20)
+        );
+        getDocs(selectStatement).then(result => {
+            let dataList = result.docs.map(x => x.data());
+            resolve(dataList);
+        })
+        .catch(ex => {
+            console.error(ex.message);
+            reject(ex);
+        });
+    });
+}
+
+export async function getItemSensorLogByItemCode(itemCode) {
+    return new Promise((resolve, reject) => {
+        const selectStatement = query(itemSensorLogRef, 
+            where("ItemCode", "==", itemCode), 
+            orderBy("CreateDate", "asc"), limit(31)
         );
         getDocs(selectStatement).then(result => {
             let dataList = result.docs.map(x => x.data());
