@@ -158,8 +158,8 @@ export function Report() {
 			}
             <Menu model={menuItems} popup ref={menu} />
             <Button label="" icon="pi pi-bars" className="p-button-text p-button-primary mr-2 mb-2 LogOut" onClick={(event) => menu.current.toggle(event)}/>
-            <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={270} 
-            src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2FReport.webp?alt=media&token=07d024c2-6508-4762-97a6-12a8a244ed8b'}></img>
+            <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={400} 
+            src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2FReport.webp?alt=media&token=fcb46b25-7708-4095-849a-26668bc9054d'}></img>
             <br />
             <br />
             <Chart type="line" data={chartData} options={chartOptions} />
