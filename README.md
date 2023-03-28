@@ -35,48 +35,26 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
 ### install capacitor:
 https://capacitorjs.com/solution/react
 
 ### export studio.sh path:
-export CAPACITOR_ANDROID_STUDIO_PATH="/home/ghesa/android-studio/bin/studio.sh"
-or
 export CAPACITOR_ANDROID_STUDIO_PATH="/home/ghesa/Documents/program/android-studio/bin/studio.sh"
 
 ### build capacitor:
 https://capacitorjs.com/docs/v2/basics/building-your-app
+
+### deploy android:
+npm run build
+npx cap add android => required only for initialize
+npx cap copy android
+npx cap open android
+
+### FCM with capacitor:
+https://github.com/capacitor-community/fcm
+copy public/google-services.json to android/app
+
+server key qc: AAAAfvFyFkM:APA91bHCvoVe9wXdtD7PM6on0qebHHkin2Cd28psimpNtS3jtthSBYOi4lBDC2lQNzeD_p2hMmvRhdI-STVbm-4TjfNQQ8a_BRjnBhJPdyRMQhIiCqtXwqJrwqz8rvEgrEw8F7I02Dqg
+token qc:
+eSp46GjjSxe3SLcDJdGba9:APA91bFR7BXTIdk10n6ISKXitbqi28eaTg8fuv4VBMKJWH2UNdlIBOiAq-VOnT1TnL4kA8P-av3wM7k7JbDBcLJodWd-GI8o25TNcWE2GHb61SE_vfr8Ik87rwQXf0enwr8qSMmdFFS9
 
