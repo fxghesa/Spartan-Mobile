@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "545216665155",
+    "firebase_url": "https://apps-2ee38.firebaseio.com",
+    "project_id": "apps-2ee38",
+    "storage_bucket": "apps-2ee38.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:545216665155:android:8ddfd7b2b4d883db4566f6",
+        "android_client_info": {
+          "package_name": "spartan.id"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "545216665155-740kjkaki75l30edg5lmqtojmesppqip.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAfM-qjsmhQLrvD6vhUsT26XUkliNe3EM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "545216665155-740kjkaki75l30edg5lmqtojmesppqip.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

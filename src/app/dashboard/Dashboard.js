@@ -2,7 +2,9 @@ import './Dashboard.css';
 import '../../App.css';
 import { useEffect, useState, useRef } from 'react';
 import { userIdLocalStorage } from "../../service/Localstorage-config";
+import { signUpAnonymously } from "../../service/Firestore-Config";
 import { getItemHeader, getItemHeaderId, updateItemHeaderById, getItemLogByItemCode } from "../../service/Item";
+import { getUserDocIdByUserName, updateFcmUserById } from "../../service/User";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import moment from "moment";
@@ -54,8 +56,28 @@ export function Dashboard() {
 
     useEffect(() => {
         localStorage.setItem(userIdLocalStorage, userid);
-        refreshSummary();
+        signUpAnonymously();
+        initialPageLoad();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [userid]);
+
+    useEffect(() => {
+        refreshSummary();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    function initialPageLoad() {
+        async function fetchFirestore() {
+            setIsLoading(true);
+            const id = (await getUserDocIdByUserName(userid)
+            .finally(() => { }));
+            await updateFcmUserById(id)
+            .finally(() => {
+                setIsLoading(false);
+            });
+		}
+		fetchFirestore();
+    }
 
     function refreshSummary() {
         async function fetchFirestore() {
