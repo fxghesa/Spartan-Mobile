@@ -35,26 +35,25 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-### install capacitor:
+### Install Capacitor:
 https://capacitorjs.com/solution/react
 
-### export studio.sh path:
+### Export studio.sh path:
 export CAPACITOR_ANDROID_STUDIO_PATH="/home/ghesa/Documents/program/android-studio/bin/studio.sh"
 
-### build capacitor:
+### Build capacitor:
 https://capacitorjs.com/docs/v2/basics/building-your-app
 
-### deploy android:
-npm run build
-npx cap add android => required only for initialize
-npx cap copy android
-npx cap open android
+### Deploy android:
+`npm run build` \
+`npx cap add android` => required only for initialize \
+`npx cap copy android` \
+`npx cap open android` \
 
 ### FCM with capacitor:
-https://github.com/capacitor-community/fcm
-copy public/google-services.json to android/app
+https://github.com/capacitor-community/fcm \
+copy public/google-services.json to android/app \
 
-server key qc: AAAAfvFyFkM:APA91bHCvoVe9wXdtD7PM6on0qebHHkin2Cd28psimpNtS3jtthSBYOi4lBDC2lQNzeD_p2hMmvRhdI-STVbm-4TjfNQQ8a_BRjnBhJPdyRMQhIiCqtXwqJrwqz8rvEgrEw8F7I02Dqg
-token qc:
-eSp46GjjSxe3SLcDJdGba9:APA91bFR7BXTIdk10n6ISKXitbqi28eaTg8fuv4VBMKJWH2UNdlIBOiAq-VOnT1TnL4kA8P-av3wM7k7JbDBcLJodWd-GI8o25TNcWE2GHb61SE_vfr8Ik87rwQXf0enwr8qSMmdFFS9
+`server key qc:` AAAAfvFyFkM:APA91bHCvoVe9wXdtD7PM6on0qebHHkin2Cd28psimpNtS3jtthSBYOi4lBDC2lQNzeD_p2hMmvRhdI-STVbm-4TjfNQQ8a_BRjnBhJPdyRMQhIiCqtXwqJrwqz8rvEgrEw8F7I02Dqg \
+`token qc:` eSp46GjjSxe3SLcDJdGba9:APA91bFR7BXTIdk10n6ISKXitbqi28eaTg8fuv4VBMKJWH2UNdlIBOiAq-VOnT1TnL4kA8P-av3wM7k7JbDBcLJodWd-GI8o25TNcWE2GHb61SE_vfr8Ik87rwQXf0enwr8qSMmdFFS9 \
 
