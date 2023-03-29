@@ -58,7 +58,7 @@ copy public/google-services.json to android/app
 `token qc:` eSp46GjjSxe3SLcDJdGba9:APA91bFR7BXTIdk10n6ISKXitbqi28eaTg8fuv4VBMKJWH2UNdlIBOiAq-VOnT1TnL4kA8P-av3wM7k7JbDBcLJodWd-GI8o25TNcWE2GHb61SE_vfr8Ik87rwQXf0enwr8qSMmdFFS9 
 
 ### Firebase Hosting
-to initialize, run:
+to initialize, run: \
 `npm install -g firebase-tools` \
 `firebase login` or `firebase login --reauth` \
 `firebase init` \
