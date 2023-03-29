@@ -48,12 +48,21 @@ https://capacitorjs.com/docs/v2/basics/building-your-app
 `npm run build` \
 `npx cap add android` => required only for initialize \
 `npx cap copy android` \
-`npx cap open android` \
+`npx cap open android` 
 
-### FCM with capacitor:
+### Firebase Cloud Message (FCM) with capacitor:
 https://github.com/capacitor-community/fcm \
-copy public/google-services.json to android/app \
+copy public/google-services.json to android/app 
 
 `server key qc:` AAAAfvFyFkM:APA91bHCvoVe9wXdtD7PM6on0qebHHkin2Cd28psimpNtS3jtthSBYOi4lBDC2lQNzeD_p2hMmvRhdI-STVbm-4TjfNQQ8a_BRjnBhJPdyRMQhIiCqtXwqJrwqz8rvEgrEw8F7I02Dqg \
-`token qc:` eSp46GjjSxe3SLcDJdGba9:APA91bFR7BXTIdk10n6ISKXitbqi28eaTg8fuv4VBMKJWH2UNdlIBOiAq-VOnT1TnL4kA8P-av3wM7k7JbDBcLJodWd-GI8o25TNcWE2GHb61SE_vfr8Ik87rwQXf0enwr8qSMmdFFS9 \
+`token qc:` eSp46GjjSxe3SLcDJdGba9:APA91bFR7BXTIdk10n6ISKXitbqi28eaTg8fuv4VBMKJWH2UNdlIBOiAq-VOnT1TnL4kA8P-av3wM7k7JbDBcLJodWd-GI8o25TNcWE2GHb61SE_vfr8Ik87rwQXf0enwr8qSMmdFFS9 
 
+### Firebase Hosting
+to initialize, run:
+`npm install -g firebase-tools` \
+`firebase login` or `firebase login --reauth` \
+`firebase init` \
+`npm run build` \
+`firebase deploy` \
+deployed app url: \
+https://apps-2ee38.firebaseapp.com/ 
