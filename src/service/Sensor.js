@@ -112,9 +112,9 @@ export function getIcon(sensorType, value) {
                 case value >= 600 && value < 900:
                     return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2FRain%2Fdrizzle.webp?alt=media&token=c0019464-a239-49eb-8d65-5e047026e6c1';
                 case value >= 400 && value < 600:
-                    return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2FRain%2Fno%20rain.webp?alt=media&token=c5d8ee2b-a88b-49ea-9b2b-0f5318c55890';
-                case value < 400:
                     return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2FRain%2Frain.webp?alt=media&token=fd3a346e-dff9-4fd8-b7a7-134bb1959faf';
+                case value < 400:
+                    return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2FRain%2Fheavy%20rain.webp?alt=media&token=e9ce4eae-f449-46dc-81cb-4fcc5a81a149';
             }
         default:
             return '';
