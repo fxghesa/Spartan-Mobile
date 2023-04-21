@@ -35,6 +35,9 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
+To add issue reference. include with comment when commit \
+`{comment message} Closes #1.`
+
 ### Install Capacitor:
 https://capacitorjs.com/solution/react
 
