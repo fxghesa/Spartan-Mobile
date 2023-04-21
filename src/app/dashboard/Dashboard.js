@@ -5,7 +5,7 @@ import { userIdLocalStorage } from "../../service/Localstorage-config";
 import { signUpAnonymously } from "../../service/Firestore-Config";
 import { getItemHeader, getItemHeaderId, updateItemHeaderById, getItemLogByItemCode } from "../../service/Item";
 import { getUserDocIdByUserName, updateFcmUserById } from "../../service/User";
-import { getSensorHeader } from "../../service/Sensor";
+import { getSensorHeader, getSensorKnobColor, getSensorThresholdDesc, getIcon } from "../../service/Sensor";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import moment from "moment";
@@ -97,44 +97,6 @@ export function Dashboard() {
 		}
 		fetchFirestore();
     }
-
-    function getKnobColor(sensorType, value) {
-        switch (sensorType) {
-            case 1:
-                value = 1024 - value;
-                switch (true) {
-                    default:
-                        return '#DAF5FF';
-                    case value < 900:
-                        return '#B9E9FC';
-                    case value < 500:
-                        return '#B0DAFF';
-                    case value < 100:
-                        return '#6DA9E4';
-                }
-            default:
-                return '#000000';
-        }
-    }
-
-    function getSensorThresholdDesc(sensorType, value) {
-        switch (sensorType) {
-            case 1:
-                value = 1024 - value;
-                switch (true) {
-                    default:
-                        return 'No rain';
-                    case value < 900:
-                        return 'Drizzling';
-                    case value < 500:
-                        return 'Raining';
-                    case value < 100:
-                        return 'Heavy raining';
-                }
-            default:
-                return '';
-        }
-    }
     
     return (
         <div>
@@ -157,12 +119,13 @@ export function Dashboard() {
                             <br />
                             <br />
                             <div className="temperature-value">
-                                <label htmlFor="temp-value-lbl">{getSensorThresholdDesc(1, rainSensorValue)}</label>
+                                <label htmlFor="temp-value-lbl">{getSensorThresholdDesc(1, rainSensorValue)}</label> {` `}
+                                <img htmlFor='rain-icon' key={'rain-icon'} id='rain-icon' alt='rain-icon' height={30} src={getIcon(1, rainSensorValue)}></img>
                             </div>
                         </div>
                         <div className="field col-4">
                             <Knob value={rainSensorValue} size={100} min={0} max={1024} readOnly={true} 
-                            valueColor="#708090" rangeColor={getKnobColor(1, rainSensorValue)} valueTemplate={`${Math.round(rainSensorValue / 100)}`} />
+                            valueColor="#708090" rangeColor={getSensorKnobColor(1, rainSensorValue)} valueTemplate={`${Math.round(rainSensorValue / 100)}`} />
                         </div>
                     </div>
                     <div className="p-fluid grid">
@@ -253,20 +216,6 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
         fetchFirestore();
     }
 
-    function getKnobColor(temperatureValue) {
-        switch (true) {
-            default:
-            case temperatureValue < 26:
-                return '#48d1cc';
-            case temperatureValue >= 26 && temperatureValue < 31:
-                return '#3ad068';
-            case temperatureValue >= 31 && temperatureValue < 34:
-                return '#FFBD44';
-            case temperatureValue >= 34:
-                return '#FF605C';
-        }
-    }
-
     return(
         <div>
             {/* <div className="App pt-2 pb-4">
@@ -291,15 +240,13 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                                     <br />
                                     <br />
                                     <div className="temperature-value">
-                                        { x.TemperatureValue < 26 ? <label htmlFor="temp-value-lbl">{`Cool`}</label> : null }
-                                        { x.TemperatureValue >= 26 && x.TemperatureValue < 31 ? <label htmlFor="temp-value-lbl">{`Normal`}</label> : null }
-                                        { x.TemperatureValue >= 31 && x.TemperatureValue < 34 ? <label htmlFor="temp-value-lbl">{`Warm`}</label> : null }
-                                        { x.TemperatureValue >= 34 ? <label htmlFor="temp-value-lbl">{`Hot`}</label> : null }
+                                        <label htmlFor="temp-value-lbl">{getSensorThresholdDesc(0, x.TemperatureValue)}</label> {` `}
+                                        <img htmlFor='temp-icon' key={'temp-icon'} id='temp-icon' alt='temp-icon' height={30} src={getIcon(0, x.TemperatureValue)}></img>
                                     </div>
                                 </div>
                                 <div className="field col-5">
                                     <Knob value={x.TemperatureValue} size={120} min={20} max={40} readOnly={true} 
-                                    valueColor="#708090" rangeColor={getKnobColor(x.TemperatureValue)} valueTemplate={`${Math.round(x.TemperatureValue * 1) / 1}°C`} />
+                                    valueColor="#708090" rangeColor={getSensorKnobColor(0, x.TemperatureValue)} valueTemplate={`${Math.round(x.TemperatureValue * 1) / 1}°C`} />
                                 </div>
                             </div>
                             <div className="p-fluid grid">
