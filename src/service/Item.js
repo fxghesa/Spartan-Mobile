@@ -49,6 +49,7 @@ export async function updateItemHeaderById(id, data, transType) {
     return new Promise((resolve, reject) => {
         const userId = localStorage.getItem(userIdLocalStorage);
         const itemHeaderRefById = doc(db, itemHeadertableName, id);
+        data.LastUpdateDate = new Date();
         const dataLog = {
             CreateBy: userId,
             CreateDate: new Date(),
