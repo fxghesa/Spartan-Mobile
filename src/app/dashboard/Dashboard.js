@@ -5,6 +5,7 @@ import { userIdLocalStorage } from "../../service/Localstorage-config";
 import { signUpAnonymously } from "../../service/Firestore-Config";
 import { getItemHeader, getItemHeaderId, updateItemHeaderById, getItemLogByItemCode } from "../../service/Item";
 import { getUserDocIdByUserName, updateFcmUserById } from "../../service/User";
+import { getSensorHeader } from "../../service/Sensor";
 import { useNavigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import moment from "moment";
@@ -53,6 +54,7 @@ export function Dashboard() {
     const [summaryQtyOpen, setSummaryQtyOpen] = useState(0);
     const [summaryQtyLost, setSummaryQtyLost] = useState(0);
     const [summaryQty, setSummaryQty] = useState(0);
+    const [rainSensorValue, setRainSensorValue] = useState(0);
 
     useEffect(() => {
         localStorage.setItem(userIdLocalStorage, userid);
@@ -82,15 +84,56 @@ export function Dashboard() {
     function refreshSummary() {
         async function fetchFirestore() {
             setIsLoading(true);
-			const result = (await getItemHeader()
+			const itemResult = (await getItemHeader()
+            .finally(() => { }));
+            const rainResult = await getSensorHeader(1) // Rain
             .finally(() => {
                 setIsLoading(false);
-            }));
-            setSummaryQtyOpen(result.map(x => x.QtyOpen).reduce((a, b) => a + b, 0));
-            setSummaryQtyLost(result.map(x => x.QtyLost).reduce((a, b) => a + b, 0));
-            setSummaryQty(result.map(x => x.Qty).reduce((a, b) => a + b, 0));
+            });
+            setSummaryQtyOpen(itemResult.map(x => x.QtyOpen).reduce((a, b) => a + b, 0));
+            setSummaryQtyLost(itemResult.map(x => x.QtyLost).reduce((a, b) => a + b, 0));
+            setSummaryQty(itemResult.map(x => x.Qty).reduce((a, b) => a + b, 0));
+            setRainSensorValue(1024 - rainResult);
 		}
 		fetchFirestore();
+    }
+
+    function getKnobColor(sensorType, value) {
+        switch (sensorType) {
+            case 1:
+                value = 1024 - value;
+                switch (true) {
+                    default:
+                        return '#DAF5FF';
+                    case value < 900:
+                        return '#B9E9FC';
+                    case value < 500:
+                        return '#B0DAFF';
+                    case value < 100:
+                        return '#6DA9E4';
+                }
+            default:
+                return '#000000';
+        }
+    }
+
+    function getSensorThresholdDesc(sensorType, value) {
+        switch (sensorType) {
+            case 1:
+                value = 1024 - value;
+                switch (true) {
+                    default:
+                        return 'No rain';
+                    case value < 900:
+                        return 'Drizzling';
+                    case value < 500:
+                        return 'Raining';
+                    case value < 100:
+                        return 'Heavy raining';
+                }
+            default:
+                return '';
+        }
     }
     
     return (
@@ -108,6 +151,20 @@ export function Dashboard() {
                 <div className="field col-1"></div>
                 <div className="field col-10">
                     <Fieldset legend="Summary" toggleable>
+                    <div className="p-fluid grid">
+                        <div className="field col-8 rain-label">
+                            <label htmlFor="temp-label">{`Rainmeter (0 - 10)`}</label>
+                            <br />
+                            <br />
+                            <div className="temperature-value">
+                                <label htmlFor="temp-value-lbl">{getSensorThresholdDesc(1, rainSensorValue)}</label>
+                            </div>
+                        </div>
+                        <div className="field col-4">
+                            <Knob value={rainSensorValue} size={100} min={0} max={1024} readOnly={true} 
+                            valueColor="#708090" rangeColor={getKnobColor(1, rainSensorValue)} valueTemplate={`${Math.round(rainSensorValue / 100)}`} />
+                        </div>
+                    </div>
                     <div className="p-fluid grid">
                         <div className="field col-1">
                             <i className="pi pi-box" style={{'fontSize': '1.5em'}}></i><br />
@@ -229,8 +286,8 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                     item.map((x, i) => 
                         <AccordionTab key={`accordion-${x.ItemCode}`} header={x.ItemName}>
                             <div className="p-fluid grid">
-                                <div className="field col-6 temperature-label">
-                                    <label htmlFor="temp-label">{`Temperature`}</label>
+                                <div className="field col-7 temperature-label">
+                                    <label htmlFor="temp-label">{`Temperature (20°C - 40°C)`}</label>
                                     <br />
                                     <br />
                                     <div className="temperature-value">
@@ -240,8 +297,8 @@ const AccordionContent = ({ loadingValueRef, loadingSetterRef, refreshSummaryRef
                                         { x.TemperatureValue >= 34 ? <label htmlFor="temp-value-lbl">{`Hot`}</label> : null }
                                     </div>
                                 </div>
-                                <div className="field col-6">
-                                    <Knob value={x.TemperatureValue} size={160} min={20} max={40} readOnly={true} 
+                                <div className="field col-5">
+                                    <Knob value={x.TemperatureValue} size={120} min={20} max={40} readOnly={true} 
                                     valueColor="#708090" rangeColor={getKnobColor(x.TemperatureValue)} valueTemplate={`${Math.round(x.TemperatureValue * 1) / 1}°C`} />
                                 </div>
                             </div>
