@@ -54,7 +54,9 @@ export function Dashboard() {
     const [summaryQtyOpen, setSummaryQtyOpen] = useState(0);
     const [summaryQtyLost, setSummaryQtyLost] = useState(0);
     const [summaryQty, setSummaryQty] = useState(0);
+    const [temperatureSensorValue, setTemperatureSensorValue] = useState(0);
     const [rainSensorValue, setRainSensorValue] = useState(0);
+    const [humiditySensorValue, setHumiditySensorValue] = useState(0);
 
     useEffect(() => {
         localStorage.setItem(userIdLocalStorage, userid);
@@ -86,14 +88,20 @@ export function Dashboard() {
             setIsLoading(true);
 			const itemResult = (await getItemHeader()
             .finally(() => { }));
-            const rainResult = await getSensorHeader(1) // Rain
+            const temperatureResult = (await getSensorHeader(0)
+            .finally(() => { }));
+            const rainResult = (await getSensorHeader(1)
+            .finally(() => { }));
+            const humidityResult = await getSensorHeader(2)
             .finally(() => {
                 setIsLoading(false);
             });
             setSummaryQtyOpen(itemResult.map(x => x.QtyOpen).reduce((a, b) => a + b, 0));
             setSummaryQtyLost(itemResult.map(x => x.QtyLost).reduce((a, b) => a + b, 0));
             setSummaryQty(itemResult.map(x => x.Qty).reduce((a, b) => a + b, 0));
+            setTemperatureSensorValue(temperatureResult);
             setRainSensorValue(1024 - rainResult);
+            setHumiditySensorValue(humidityResult);
 		}
 		fetchFirestore();
     }
@@ -114,18 +122,46 @@ export function Dashboard() {
                 <div className="field col-10">
                     <Fieldset legend="Summary" toggleable>
                     <div className="p-fluid grid">
-                        <div className="field col-8 rain-label">
-                            <label htmlFor="temp-label">{`Rainmeter (0 - 10)`}</label>
+                        <div className="field col-8">
+                            <label htmlFor="temp-label">{`Temperature`}</label>
                             <br />
                             <br />
-                            <div className="temperature-value">
-                                <label htmlFor="temp-value-lbl">{getSensorThresholdDesc(1, rainSensorValue)}</label> {` `}
+                            <div className="sensor-desc">
+                                <label htmlFor="temp-value-lbl">{getSensorThresholdDesc(0, temperatureSensorValue)}</label> {` `}
+                                <img htmlFor='temp-icon' key={'temp-icon'} id='temp-icon' alt='temp-icon' height={30} src={getIcon(0, temperatureSensorValue)}></img>
+                            </div>
+                        </div>
+                        <div className="field col-4">
+                            <Knob value={temperatureSensorValue} size={100} min={20} max={40} readOnly={true} 
+                            valueColor="#708090" rangeColor={getSensorKnobColor(0, temperatureSensorValue)} valueTemplate={`${Math.round(temperatureSensorValue * 1) / 1}°C`} />
+                        </div>
+
+                        <div className="field col-8">
+                            <label htmlFor="rain-label">{`Rainmeter (0 - 10)`}</label>
+                            <br />
+                            <br />
+                            <div className="sensor-desc">
+                                <label htmlFor="rain-value-lbl">{getSensorThresholdDesc(1, rainSensorValue)}</label> {` `}
                                 <img htmlFor='rain-icon' key={'rain-icon'} id='rain-icon' alt='rain-icon' height={30} src={getIcon(1, rainSensorValue)}></img>
                             </div>
                         </div>
                         <div className="field col-4">
                             <Knob value={rainSensorValue} size={100} min={0} max={1024} readOnly={true} 
                             valueColor="#708090" rangeColor={getSensorKnobColor(1, rainSensorValue)} valueTemplate={`${Math.round(rainSensorValue / 100)}`} />
+                        </div>
+
+                        <div className="field col-8">
+                            <label htmlFor="temp-label">{`Humidity`}</label>
+                            <br />
+                            <br />
+                            <div className="sensor-desc">
+                                <label htmlFor="temp-value-lbl">{getSensorThresholdDesc(2, humiditySensorValue)}</label> {` `}
+                                <img htmlFor='temp-icon' key={'temp-icon'} id='temp-icon' alt='temp-icon' height={30} src={getIcon(2, humiditySensorValue)}></img>
+                            </div>
+                        </div>
+                        <div className="field col-4">
+                            <Knob value={humiditySensorValue} size={100} min={0} max={100} readOnly={true} 
+                            valueColor="#708090" rangeColor={getSensorKnobColor(2, humiditySensorValue)} valueTemplate={`${humiditySensorValue}%`} />
                         </div>
                     </div>
                     <div className="p-fluid grid">

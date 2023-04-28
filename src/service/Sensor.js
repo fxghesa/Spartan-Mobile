@@ -37,9 +37,9 @@ export function getSensorKnobColor(sensorType, value) {
                     return '#48d1cc';
                 case value >= 26 && value < 31:
                     return '#3ad068';
-                case value >= 31 && value < 34:
+                case value >= 31 && value < 35:
                     return '#FFBD44';
-                case value >= 34:
+                case value >= 35:
                     return '#FF605C';
             }
         case 1:
@@ -52,6 +52,18 @@ export function getSensorKnobColor(sensorType, value) {
                 case value >= 400 && value < 600:
                     return '#B0DAFF';
                 case value < 400:
+                    return '#6DA9E4';
+            }
+        case 2:
+            switch (true) {
+                default:
+                case value < 25:
+                    return '#DAF5FF';
+                case value >= 25 && value < 50:
+                    return '#B9E9FC';
+                case value >= 50 && value < 75:
+                    return '#B0DAFF';
+                case value >= 75:
                     return '#6DA9E4';
             }
         default:
@@ -67,9 +79,9 @@ export function getSensorThresholdDesc(sensorType, value) {
                     return 'Cold';
                 case value >= 26 && value < 31:
                     return 'Cool';
-                case value >= 31 && value < 34:
+                case value >= 31 && value < 35:
                     return 'Warm';
-                case value >= 34:
+                case value >= 35:
                     return 'Hot';
                 default:
                     return '';
@@ -86,6 +98,19 @@ export function getSensorThresholdDesc(sensorType, value) {
                 case value < 400:
                     return 'Heavy raining';
             }
+        case 2:
+            switch (true) {
+                case value < 25:
+                    return 'Dry';
+                case value >= 25 && value < 50:
+                    return 'Semi-dry';
+                case value >= 50 && value < 75:
+                    return 'Wet';
+                case value >= 75:
+                    return 'Very wet';
+                default:
+                    return '';
+            }
         default:
             return '';
     }
@@ -99,9 +124,9 @@ export function getIcon(sensorType, value) {
                 case value >= 26 && value < 31:
                     return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Ftemp%2Flow%20temp.webp?alt=media&token=3415f63f-7f27-4e8c-912c-05a2e5aa6374';
                 default:
-                    case value >= 31 && value < 34:
+                    case value >= 31 && value < 35:
                     return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Ftemp%2Fmid%20temp.webp?alt=media&token=b779629f-823c-4e46-8d18-0098ac18de90';
-                case value >= 34:
+                case value >= 35:
                     return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Ftemp%2Fhigh%20temp.webp?alt=media&token=52c56227-df51-40d5-95f6-eb3babaeb7e3';
             }
         case 1:
@@ -115,6 +140,18 @@ export function getIcon(sensorType, value) {
                     return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2FRain%2Frain.webp?alt=media&token=fd3a346e-dff9-4fd8-b7a7-134bb1959faf';
                 case value < 400:
                     return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2FRain%2Fheavy%20rain.webp?alt=media&token=e9ce4eae-f449-46dc-81cb-4fcc5a81a149';
+            }
+        case 2:
+            switch (true) {
+                default:
+                case value < 25:
+                    return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fhumidity%2Fdry.webp?alt=media&token=24c6694f-50b1-4137-b2a3-f154d2564fb6';
+                case value >= 25 && value < 50:
+                    return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fhumidity%2Fsemi-dry.webp?alt=media&token=3fd7fb20-8c1e-45e2-93a8-b6d34891d3e7';
+                case value >= 50 && value < 75:
+                    return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fhumidity%2Fwet.webp?alt=media&token=824904b2-965e-4aca-9db8-ac10de20d7fa';
+                case value >= 75:
+                    return 'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Fhumidity%2Fvery%20wet.webp?alt=media&token=d5a92fb3-e89c-47ff-a640-05a3ffed403b';
             }
         default:
             return '';
