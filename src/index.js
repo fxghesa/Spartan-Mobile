@@ -12,6 +12,7 @@ import "primeflex/primeflex.css";
 
 //pages
 import { Dashboard } from "./app/dashboard/Dashboard";
+import { Item } from "./app/item/Item";
 import { Simulation } from "./app/simulation/Simulation";
 import { Report } from "./app/report/Report";
 
@@ -22,6 +23,7 @@ root.render(
 			<Routes>
 				<Route path="/" exac element={<App />}></Route>
 				<Route path="/Dashboard/:userid" element={<Dashboard />} />
+				<Route path="/Item" element={<Item />} />
 				<Route path="/Simulation" element={<Simulation />} />
 				<Route path="/Report" element={<Report />} />
 			</Routes>

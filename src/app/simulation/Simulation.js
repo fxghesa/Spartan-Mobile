@@ -27,6 +27,13 @@ export function Simulation() {
             }
         },
         {
+            label: 'Item',
+            icon: 'pi pi-list',
+            command: (e) => {
+                navigate("/Item", { replace: true });
+            }
+        },
+        {
             label: 'Report',
             icon: 'pi pi-chart-line',
             command: (e) => {

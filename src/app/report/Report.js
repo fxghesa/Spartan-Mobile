@@ -30,6 +30,13 @@ export function Report() {
             }
         },
         {
+            label: 'Item',
+            icon: 'pi pi-list',
+            command: (e) => {
+                navigate("/Item", { replace: true });
+            }
+        },
+        {
             label: 'Simulator',
             icon: 'pi pi-book',
             command: (e) => {
@@ -208,8 +215,8 @@ export function Report() {
 			}
             <Menu model={menuItems} popup ref={menu} />
             <Button label="" icon="pi pi-bars" className="p-button-text p-button-primary mr-2 mb-2 LogOut" onClick={(event) => menu.current.toggle(event)}/>
-            <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={400} 
-            src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2FReport.webp?alt=media&token=fcb46b25-7708-4095-849a-26668bc9054d'}></img>
+            <img htmlFor='imgdashboard' key={'imgdashboard'} id='imgdashboard' alt='imgdashboard' height={290} 
+            src={'https://firebasestorage.googleapis.com/v0/b/apps-2ee38.appspot.com/o/assets%2Freport2.webp?alt=media&token=fe7c8453-e216-4731-8965-010ea1deb1d6'}></img>
             <br />
             <br />
             <TabView>
