@@ -5,24 +5,24 @@
   "homepage": ".",
   "dependencies": {
     "@capacitor-community/fcm": "^3.0.2",
-    "@capacitor/android": "^4.0.0",
-    "@capacitor/core": "^4.0.0",
+    "@capacitor/android": "^4.8.1",
+    "@capacitor/core": "^4.8.1",
     "@capacitor/push-notifications": "^4.1.2",
-    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
-    "chart.js": "^4.2.1",
-    "firebase": "^9.18.0",
+    "chart.js": "^4.4.1",
+    "firebase": "^9.23.0",
     "lodash.chunk": "^4.2.0",
-    "moment": "^2.29.4",
-    "primeflex": "^3.3.0",
-    "primeicons": "^6.0.0",
+    "moment": "^2.30.1",
+    "primeflex": "^3.3.1",
+    "primeicons": "^6.0.1",
     "primereact": "^8.7.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-localization": "^1.0.19",
     "react-router": "^6.3.0",
-    "react-router-dom": "^6.9.0",
+    "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4"
   },
@@ -51,6 +51,6 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "^4.0.0"
+    "@capacitor/cli": "^4.8.1"
   }
 }
