@@ -42,7 +42,7 @@ To add issue reference. include with comment when commit \
 https://capacitorjs.com/solution/react
 
 ### Export studio.sh path:
-export CAPACITOR_ANDROID_STUDIO_PATH="/home/ghesa/Documents/program/android-studio/bin/studio.sh"
+export CAPACITOR_ANDROID_STUDIO_PATH="/home/user/Documents/program/android-studio/bin/studio.sh"
 
 ### Build capacitor:
 https://capacitorjs.com/docs/v2/basics/building-your-app
